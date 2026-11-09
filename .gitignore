@@ -6,3 +6,4 @@ tools/*.log
 tools/jobs.json
 tools/make_jobs.py
 tools/pixabay_fetch.py
+resume/

@@ -32,7 +32,7 @@
   <p class="footer__wordmark" aria-hidden="true">{{ section.settings.wordmark | default: shop.name }}</p>
   <div class="container">
     <div class="footer__bottom">
-      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. Roasted in Lima, Perú. {{ powered_by_link }}</span>
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ section.settings.wordmark | default: shop.name }}. Roasted in Lima, Perú.{% if section.settings.demo_note != blank %} · {{ section.settings.demo_note }}{% endif %}</span>
       {%- form 'localization', class: 'localization-form' -%}
         {%- if localization.available_countries.size > 1 -%}
           <select name="country_code" onchange="this.form.submit()" aria-label="Country">
@@ -55,7 +55,8 @@
   "class": "section-footer",
   "settings": [
     { "type": "text", "id": "wordmark", "label": "Wordmark", "default": "Altura" },
-    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Specialty coffee from the high Andes of Perú. Direct trade, roasted weekly, shipped fresh." }
+    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Specialty coffee from the high Andes of Perú. Direct trade, roasted weekly, shipped fresh." },
+    { "type": "inline_richtext", "id": "demo_note", "label": "Demo note", "default": "Demo store: Altura is a fictional brand" }
   ],
   "blocks": [
     { "type": "menu", "name": "Menu", "settings": [

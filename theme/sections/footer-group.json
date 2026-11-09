@@ -1,17 +1,44 @@
 {
-  "type": "footer",
-  "name": "Footer group",
-  "sections": {
-    "footer": {
-      "type": "footer",
-      "settings": { "wordmark": "Altura" },
-      "blocks": {
-        "m1": { "type": "menu", "settings": { "title": "Shop", "menu": "footer-shop" } },
-        "m2": { "type": "menu", "settings": { "title": "Help", "menu": "footer" } },
-        "t1": { "type": "text", "settings": { "title": "Roastery & café", "text": "<p>Av. Larco 345, Miraflores, Lima</p><p>Mon–Sat · 8am – 7pm</p><p>hola@altura.coffee</p>" } }
-      },
-      "block_order": ["m1", "m2", "t1"]
+ "type": "footer",
+ "name": "Footer group",
+ "sections": {
+  "footer": {
+   "type": "footer",
+   "settings": {
+    "wordmark": "Altura",
+    "demo_note": "Demo store by <a href=\"https://github.com/icochea1/altura-shopify-theme\">Carlos Castillo</a> · Altura is a fictional brand"
+   },
+   "blocks": {
+    "m1": {
+     "type": "menu",
+     "settings": {
+      "title": "Shop",
+      "menu": "footer-shop"
+     }
+    },
+    "m2": {
+     "type": "menu",
+     "settings": {
+      "title": "Help",
+      "menu": "footer"
+     }
+    },
+    "t1": {
+     "type": "text",
+     "settings": {
+      "title": "Roastery & café",
+      "text": "<p>Av. Larco 345, Miraflores, Lima</p><p>Mon–Sat · 8am – 7pm</p><p>hola@altura.coffee</p>"
+     }
     }
-  },
-  "order": ["footer"]
+   },
+   "block_order": [
+    "m1",
+    "m2",
+    "t1"
+   ]
+  }
+ },
+ "order": [
+  "footer"
+ ]
 }
