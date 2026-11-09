@@ -4,7 +4,7 @@ A fully custom Shopify Online Store 2.0 theme, built from scratch in Liquid, JSO
 
 **Altura** is a demo specialty-coffee brand from the Peruvian Andes, created to show a complete, production-style storefront: brand, catalog, content and theme.
 
-**Live store:** [t6ngcu-uh.myshopify.com](https://t6ngcu-uh.myshopify.com)
+**Live store:** [altura-coffee-store.myshopify.com](https://altura-coffee-store.myshopify.com)
 
 ![Homepage](docs/home.jpg)
 
