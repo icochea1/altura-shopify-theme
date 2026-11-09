@@ -1,0 +1,66 @@
+{%- comment -%}
+  Renders a product card.
+  - product: product object
+  - index: for reveal stagger
+  - show_quick: boolean
+{%- endcomment -%}
+{%- liquid
+  assign first_img = product.featured_media
+  assign second_img = product.media[1]
+  assign v = product.selected_or_first_available_variant
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+  assign meta = product.metafields.custom.region.value | default: product.type
+  assign notes = product.metafields.custom.tasting_notes.value
+-%}
+<div class="card" data-reveal style="--d: {{ index | default: 0 | modulo: 4 }}">
+  <div class="card__media">
+    {%- if first_img -%}
+      {{ first_img | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 25vw, 50vw', widths: '360, 540, 720, 900', alt: first_img.alt | default: product.title, class: 'card__img-1' }}
+      {%- if second_img -%}
+        {{ second_img | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 25vw, 50vw', widths: '360, 540, 720, 900', alt: '', class: 'card__img-2' }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+    <div class="card__badges">
+      {%- unless product.available -%}
+        <span class="badge badge--soldout">Sold out</span>
+      {%- elsif on_sale -%}
+        <span class="badge badge--sale">Save {{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%</span>
+      {%- endunless -%}
+      {%- if product.tags contains 'new' -%}<span class="badge">New harvest</span>{%- endif -%}
+      {%- if product.tags contains 'limited' -%}<span class="badge badge--dark">Limited</span>{%- endif -%}
+      {%- if product.tags contains 'bestseller' -%}<span class="badge">Bestseller</span>{%- endif -%}
+    </div>
+    {%- if show_quick != false and product.available -%}
+      <div class="card__quick">
+        {%- if product.has_only_default_variant -%}
+          <button class="btn" type="button" data-quick-add="{{ v.id }}">{% render 'icon', name: 'plus', size: 16 %}<span>Quick add</span></button>
+        {%- else -%}
+          <button class="btn" type="button" data-quick-add="{{ v.id }}">{% render 'icon', name: 'plus', size: 16 %}<span>Add {{ v.title | split: ' / ' | first }}</span></button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="card__info">
+    <span class="card__meta">{{ meta }}</span>
+    <h3 class="card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+    {%- if notes != blank -%}<span class="card__notes">{{ notes }}</span>{%- endif -%}
+    <div class="card__row">
+      {% render 'price', product: product %}
+      {%- assign color_option = product.options_by_name['Color'] -%}
+      {%- if color_option -%}
+        <div class="card__swatches">
+          {%- for value in color_option.values limit: 4 -%}
+            <span class="card__swatch" style="background: {% render 'swatch-color', name: value %}" title="{{ value | escape }}"></span>
+          {%- endfor -%}
+        </div>
+      {%- elsif product.metafields.reviews.rating.value != blank -%}
+        <span class="rating">{% render 'icon', name: 'star', size: 13 %}{{ product.metafields.reviews.rating.value.rating | round: 1 }}</span>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

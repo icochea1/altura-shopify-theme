@@ -1,0 +1,141 @@
+{
+ "sections": {
+  "hero": {
+   "type": "page-hero",
+   "settings": {
+    "image": "shopify://shop_images/altura-origin-cusco.jpg",
+    "height": 80,
+    "eyebrow": "Our story",
+    "title": "We go to the source.",
+    "text": "Altura started in 2016 with one farm, one roaster and a simple idea: the people who grow extraordinary coffee should be paid like it."
+   }
+  },
+  "split": {
+   "type": "image-with-text",
+   "settings": {
+    "image": "shopify://shop_images/altura-hero-hands.jpg",
+    "image_2": "shopify://shop_images/altura-about-cherries.jpg",
+    "reverse": true,
+    "eyebrow": "Direct trade",
+    "title": "No middlemen. No mystery.",
+    "text": "<p>We travel to every farm we buy from, every harvest. We cup the coffee together, agree on a price before it's picked and pay growers directly — on average 2.4× the fair-trade minimum.</p><p>That price funds new drying beds, better processing and school fees. It also means we get first pick of the very best lots.</p>",
+    "button_label": "Shop single origin",
+    "button_link": "shopify://collections/single-origin",
+    "style": ""
+   },
+   "blocks": {
+    "b0": {
+     "type": "stat",
+     "settings": {
+      "number": "42",
+      "label": "Partner farms"
+     }
+    },
+    "b1": {
+     "type": "stat",
+     "settings": {
+      "number": "$1.2M",
+      "label": "Paid to growers in 2025"
+     }
+    },
+    "b2": {
+     "type": "stat",
+     "settings": {
+      "number": "100%",
+      "label": "Traceable"
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2"
+   ]
+  },
+  "timeline": {
+   "type": "timeline",
+   "settings": {
+    "eyebrow": "Milestones",
+    "title": "From one farm to forty-two"
+   },
+   "blocks": {
+    "b0": {
+     "type": "event",
+     "settings": {
+      "year": "2016",
+      "title": "One farm, one roaster",
+      "text": "We roast our first 60 kg from a single farm in Villa Rica in a borrowed 5 kg roaster."
+     }
+    },
+    "b1": {
+     "type": "event",
+     "settings": {
+      "year": "2018",
+      "title": "The roastery opens",
+      "text": "Our café and roastery opens in Miraflores, Lima. Wholesale to the first 10 cafés."
+     }
+    },
+    "b2": {
+     "type": "event",
+     "settings": {
+      "year": "2020",
+      "title": "Direct trade, everywhere",
+      "text": "Every coffee we sell is bought directly from the grower at a pre-agreed price."
+     }
+    },
+    "b3": {
+     "type": "event",
+     "settings": {
+      "year": "2023",
+      "title": "Compostable everything",
+      "text": "All bags become home-compostable; shipping becomes carbon-neutral."
+     }
+    },
+    "b4": {
+     "type": "event",
+     "settings": {
+      "year": "2026",
+      "title": "42 farms, 5 regions",
+      "text": "Coffee from Cajamarca to Puno, shipped to 40+ countries."
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2",
+    "b3",
+    "b4"
+   ]
+  },
+  "dark": {
+   "type": "image-with-text",
+   "settings": {
+    "image": "shopify://shop_images/altura-about-roaster.jpg",
+    "reverse": false,
+    "eyebrow": "The roastery",
+    "title": "Roasted in small batches in Lima",
+    "text": "<p>We roast on a 15 kg drum roaster twice a week, profiling every coffee to bring out its origin — never to hide it.</p>",
+    "button_label": "Visit the café",
+    "button_link": "shopify://pages/contact",
+    "style": "section--dark"
+   }
+  },
+  "newsletter": {
+   "type": "newsletter",
+   "settings": {
+    "eyebrow": "The Altura letter",
+    "title": "Follow the harvest.",
+    "text": "Farm visits, new lots and brew guides in your inbox.",
+    "style": "section--accent"
+   }
+  }
+ },
+ "order": [
+  "hero",
+  "split",
+  "timeline",
+  "dark",
+  "newsletter"
+ ]
+}

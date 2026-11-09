@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": { "type": "title" },
+        "price": { "type": "price" },
+        "description": { "type": "description" },
+        "buy": { "type": "buy", "settings": { "dynamic_checkout": true } },
+        "profile": { "type": "profile" },
+        "perks": { "type": "perks" },
+        "accordion": { "type": "accordion" }
+      },
+      "block_order": ["title", "price", "description", "buy", "profile", "perks", "accordion"]
+    },
+    "guide": {
+      "type": "brew-guide",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "icon": "scale", "value": "15 g", "label": "Coffee, medium-fine grind" } },
+        "s2": { "type": "step", "settings": { "icon": "droplet", "value": "250 ml", "label": "Filtered water, 1:16 ratio" } },
+        "s3": { "type": "step", "settings": { "icon": "thermometer", "value": "94°C", "label": "Just off the boil" } },
+        "s4": { "type": "step", "settings": { "icon": "clock", "value": "3:00", "label": "Total brew time" } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"]
+    },
+    "recs": { "type": "product-recommendations" }
+  },
+  "order": ["main", "guide", "recs"]
+}

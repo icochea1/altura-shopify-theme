@@ -1,0 +1,12 @@
+<a href="{{ article.url }}" class="post-card" data-reveal style="--d: {{ index | default: 0 }}">
+  <div class="media">
+    {%- if article.image -%}{{ article.image | image_url: width: 1000 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 33vw, 100vw', widths: '400, 700, 1000', alt: article.image.alt | default: article.title }}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}
+  </div>
+  <div class="post-card__meta">
+    {%- if article.tags.size > 0 -%}<span>{{ article.tags.first }}</span>{%- endif -%}
+    <span>{{ article.published_at | date: '%b %d, %Y' }}</span>
+    <span>{{ article.content | strip_html | split: ' ' | size | divided_by: 200 | plus: 1 }} min read</span>
+  </div>
+  <h3>{{ article.title }}</h3>
+  <p>{{ article.excerpt_or_content | strip_html | truncate: 120 }}</p>
+</a>

@@ -1,0 +1,219 @@
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  assign m = product.metafields.custom
+  assign is_coffee = false
+  if m.tasting_notes != blank
+    assign is_coffee = true
+  endif
+-%}
+<section class="section" style="padding-top:0" data-product data-update-url="true">
+  <script type="application/json" data-product-json>{{ product | json }}</script>
+  {%- for v in product.variants -%}<input type="hidden" data-inv="{{ v.id }}" value="{{ v.inventory_quantity }}">{%- endfor -%}
+  <div class="container">
+    <div class="product">
+      <div>
+        <div class="gallery">
+          {%- for media in product.media -%}
+            {%- liquid
+              assign lazy = 'lazy'
+              if forloop.first
+                assign lazy = 'eager'
+              endif
+              assign full = media.preview_image | image_url: width: 2400
+              assign alt = media.alt | default: product.title
+            -%}
+            <div class="gallery__item" data-media-id="{{ media.id }}" data-reveal="fade">
+              {{ media.preview_image | image_url: width: 1600 | image_tag: loading: lazy, sizes: '(min-width: 990px) 55vw, 100vw', widths: '600, 900, 1200, 1600', alt: alt, data-full: full }}
+            </div>
+          {%- else -%}
+            <div class="gallery__item">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+          {%- endfor -%}
+        </div>
+        <div class="gallery-mobile">
+          <div class="rail">
+            {%- for media in product.media -%}
+              <div class="gallery__item" data-media-id="{{ media.id }}">{{ media.preview_image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: media.alt | default: product.title }}</div>
+            {%- endfor -%}
+          </div>
+          <div class="gallery-mobile__dots">{%- for media in product.media -%}<i{% if forloop.first %} class="on"{% endif %}></i>{%- endfor -%}</div>
+        </div>
+      </div>
+
+      <div class="product__info">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}">Home</a><span>/</span>
+          {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title }}</a>{%- else -%}<a href="{{ routes.all_products_collection_url }}">Shop</a>{%- endif -%}
+          <span>/</span><span aria-current="page">{{ product.title }}</span>
+        </nav>
+
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+
+            {%- when 'title' -%}
+              <div {{ block.shopify_attributes }}>
+                {%- if m.region != blank -%}<p class="eyebrow">{{ m.region }}{% if m.altitude != blank %} · {{ m.altitude }}{% endif %}</p>{%- else -%}<p class="eyebrow">{{ product.type }}</p>{%- endif -%}
+                <h1 class="product__title">{{ product.title }}</h1>
+                {%- if m.subtitle != blank -%}<p class="product__subtitle">{{ m.subtitle }}</p>{%- endif -%}
+              </div>
+
+            {%- when 'price' -%}
+              <div class="product__price-row" {{ block.shopify_attributes }}>
+                {% render 'price', product: product, variant: current, attr: 'data-price' %}
+                <span class="muted" style="font-size:.85rem">{% if is_coffee %}Free shipping over {{ settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros }}{% else %}Taxes included{% endif %}</span>
+              </div>
+
+            {%- when 'description' -%}
+              <div class="product__desc rte" {{ block.shopify_attributes }}>{{ product.description | split: '<!-- more -->' | first }}</div>
+
+            {%- when 'buy' -%}
+              <div {{ block.shopify_attributes }}>
+                {%- form 'product', product, data-product-form: '', class: 'product-form' -%}
+                  <input type="hidden" name="id" value="{{ current.id }}">
+                  {%- unless product.has_only_default_variant -%}
+                    {%- for option in product.options_with_values -%}
+                      {%- assign is_color = false -%}
+                      {%- if option.name == 'Color' or option.name == 'Colour' -%}{%- assign is_color = true -%}{%- endif -%}
+                      <fieldset class="option" data-option-index="{{ forloop.index0 }}">
+                        <legend>{{ option.name }}: <span data-option-value>{{ option.selected_value }}</span></legend>
+                        <div class="option__values">
+                          {%- for value in option.values -%}
+                            {%- assign oid = section.id | append: '-' | append: option.position | append: '-' | append: forloop.index0 -%}
+                            <input type="radio" id="Opt-{{ oid }}" name="option-{{ option.position }}" value="{{ value | escape }}"{% if option.selected_value == value %} checked{% endif %}>
+                            {%- if is_color -%}
+                              <label for="Opt-{{ oid }}" class="swatch" style="background: {% render 'swatch-color', name: value %}" title="{{ value | escape }}"><span class="visually-hidden">{{ value }}</span></label>
+                            {%- else -%}
+                              <label for="Opt-{{ oid }}" class="pill">{{ value }}
+                                {%- if option.name == 'Size' -%}
+                                  {%- if value contains '1 kg' -%}<small>Save 20%</small>{%- elsif value contains '250' -%}<small>~16 cups</small>{%- endif -%}
+                                {%- endif -%}
+                              </label>
+                            {%- endif -%}
+                          {%- endfor -%}
+                        </div>
+                      </fieldset>
+                    {%- endfor -%}
+                  {%- endunless -%}
+
+                  <div class="buy-row">
+                    <div class="qty">
+                      <button type="button" data-qty-step="-1" aria-label="Decrease quantity">{% render 'icon', name: 'minus', size: 16 %}</button>
+                      <input type="number" name="quantity" value="1" min="1" aria-label="Quantity">
+                      <button type="button" data-qty-step="1" aria-label="Increase quantity">{% render 'icon', name: 'plus', size: 16 %}</button>
+                    </div>
+                    <button type="submit" class="btn" data-add-button data-label="Add to bag"{% unless current.available %} disabled{% endunless %}>
+                      <span>{% if current.available %}Add to bag{% else %}Sold out{% endif %}</span>
+                    </button>
+                  </div>
+                  {%- if block.settings.dynamic_checkout -%}<div class="buy-buttons">{{ form | payment_button }}</div>{%- endif -%}
+                {%- endform -%}
+                {%- liquid
+                  assign inv = current.inventory_quantity
+                  assign stock_class = ''
+                  if current.available == false
+                    assign stock_class = ' stock--out'
+                  elsif inv > 0 and inv < 15
+                    assign stock_class = ' stock--low'
+                  endif
+                -%}
+                <div class="stock{{ stock_class }}" data-stock>
+                  <span class="stock__dot"></span>
+                  <span>{%- if current.available == false -%}Sold out — back soon{%- elsif inv > 0 and inv < 15 -%}Only {{ inv }} left — roasted this week{%- else -%}In stock — roasted to order, ships in 24h{%- endif -%}</span>
+                </div>
+              </div>
+
+            {%- when 'perks' -%}
+              <div class="perks" {{ block.shopify_attributes }}>
+                <div class="perk">{% render 'icon', name: 'truck', size: 20 %}<span>{{ block.settings.perk_1 }}</span></div>
+                <div class="perk">{% render 'icon', name: 'refresh', size: 20 %}<span>{{ block.settings.perk_2 }}</span></div>
+                <div class="perk">{% render 'icon', name: 'leaf', size: 20 %}<span>{{ block.settings.perk_3 }}</span></div>
+              </div>
+
+            {%- when 'profile' -%}
+              {%- if is_coffee -%}
+                <div class="profile" {{ block.shopify_attributes }}>
+                  <div class="profile__head"><h3>Flavor profile</h3><span class="muted" style="font-size:.8rem">Cupping score {{ m.score | default: '86' }}</span></div>
+                  <div class="profile__notes">
+                    {%- assign notes = m.tasting_notes.value | split: ',' -%}
+                    {%- for n in notes -%}<span>{{ n | strip }}</span>{%- endfor -%}
+                  </div>
+                  {%- assign meters = 'Roast,Acidity,Body,Sweetness' | split: ',' -%}
+                  {%- for label in meters -%}
+                    {%- assign key = label | downcase -%}
+                    {%- assign val = m[key].value | default: 3 -%}
+                    <div class="meter"><span>{{ label }}</span><div class="meter__bar">{%- for i in (1..5) -%}<i{% if i <= val %} class="on"{% endif %}></i>{%- endfor -%}</div></div>
+                  {%- endfor -%}
+                  <div class="facts">
+                    <div><span>Region</span><b>{{ m.region }}</b></div>
+                    <div><span>Altitude</span><b>{{ m.altitude }}</b></div>
+                    <div><span>Process</span><b>{{ m.process }}</b></div>
+                    <div><span>Variety</span><b>{{ m.variety }}</b></div>
+                  </div>
+                </div>
+              {%- endif -%}
+
+            {%- when 'accordion' -%}
+              <div class="accordion accordion--small" {{ block.shopify_attributes }}>
+                {%- assign more = product.description | split: '<!-- more -->' -%}
+                {%- if more.size > 1 -%}
+                  <details open><summary>Details<span class="plus"></span></summary><div class="accordion__body rte">{{ more.last }}</div></details>
+                {%- endif -%}
+                {%- if is_coffee -%}
+                  <details><summary>How to brew it<span class="plus"></span></summary><div class="accordion__body rte">{{ m.brew_tip | default: block.settings.brew }}</div></details>
+                {%- endif -%}
+                <details><summary>Shipping & returns<span class="plus"></span></summary><div class="accordion__body rte">{{ block.settings.shipping }}</div></details>
+                <details><summary>Sustainability<span class="plus"></span></summary><div class="accordion__body rte">{{ block.settings.sustain }}</div></details>
+              </div>
+
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="sticky-atc" data-sticky-atc>
+    <div class="container sticky-atc__inner">
+      {%- if product.featured_image -%}{{ product.featured_image | image_url: width: 120 | image_tag: alt: '' }}{%- endif -%}
+      <div>
+        <div class="sticky-atc__title">{{ product.title }}</div>
+        <div class="sticky-atc__variant"><span data-sticky-variant>{% unless product.has_only_default_variant %}{{ current.title }}{% endunless %}</span> · <span data-sticky-price>{{ current.price | money }}</span></div>
+      </div>
+      <button class="btn btn--accent" data-quick-add="{{ current.id }}"{% unless current.available %} disabled{% endunless %}>Add to bag</button>
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/", "@type": "Product",
+  "name": {{ product.title | json }},
+  "image": {{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | json }},
+  "description": {{ product.description | strip_html | json }},
+  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+  "offers": [{%- for v in product.variants -%}{ "@type": "Offer", "sku": {{ v.sku | json }}, "price": {{ v.price | divided_by: 100.0 | json }}, "priceCurrency": {{ cart.currency.iso_code | json }}, "availability": "http://schema.org/{% if v.available %}InStock{% else %}OutOfStock{% endif %}", "url": "{{ request.origin }}{{ v.url }}" }{% unless forloop.last %},{% endunless %}{%- endfor -%}]
+}
+</script>
+
+{% schema %}
+{
+  "name": "Product information",
+  "blocks": [
+    { "type": "title", "name": "Title", "limit": 1 },
+    { "type": "price", "name": "Price", "limit": 1 },
+    { "type": "description", "name": "Short description", "limit": 1 },
+    { "type": "profile", "name": "Coffee flavor profile", "limit": 1 },
+    { "type": "buy", "name": "Buy buttons", "limit": 1, "settings": [
+      { "type": "checkbox", "id": "dynamic_checkout", "label": "Show dynamic checkout buttons", "default": true }
+    ] },
+    { "type": "perks", "name": "Perks", "limit": 1, "settings": [
+      { "type": "text", "id": "perk_1", "label": "Perk 1", "default": "Free shipping over $60" },
+      { "type": "text", "id": "perk_2", "label": "Perk 2", "default": "Subscribe & save 15%" },
+      { "type": "text", "id": "perk_3", "label": "Perk 3", "default": "Direct trade, 2.4× fair price" }
+    ] },
+    { "type": "accordion", "name": "Accordions", "limit": 1, "settings": [
+      { "type": "richtext", "id": "brew", "label": "Default brew guide", "default": "<p>Use 15 g of coffee for 250 ml of water at 94°C. Bloom for 40 seconds, then pour slowly to finish around 3 minutes.</p>" },
+      { "type": "richtext", "id": "shipping", "label": "Shipping", "default": "<p>Roasted Tuesdays and Fridays, shipped within 24 hours. Free shipping on orders over $60. Not in love? We'll replace it or refund you — no questions asked.</p>" },
+      { "type": "richtext", "id": "sustain", "label": "Sustainability", "default": "<p>Compostable bags, carbon-neutral shipping and direct-trade prices paid straight to the producer.</p>" }
+    ] }
+  ]
+}
+{% endschema %}

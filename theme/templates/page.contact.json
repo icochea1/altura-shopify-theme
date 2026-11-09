@@ -1,0 +1,62 @@
+{
+ "sections": {
+  "main": {
+   "type": "main-page",
+   "settings": {
+    "eyebrow": "Get in touch"
+   }
+  },
+  "form": {
+   "type": "contact-form",
+   "settings": {
+    "image": "shopify://shop_images/altura-cafe.jpg",
+    "title": "Send us a note",
+    "info": "<p><strong>Roastery & café</strong><br>Av. Larco 345, Miraflores, Lima</p><p><strong>Hours</strong><br>Mon–Sat · 8am – 7pm</p><p><strong>Email</strong><br>hola@altura.coffee</p>"
+   }
+  },
+  "faq": {
+   "type": "faq",
+   "settings": {
+    "eyebrow": "Quick answers",
+    "title": "Before you write",
+    "text": "These cover most questions we get.",
+    "button_label": "",
+    "open_first": false,
+    "style": "section--surface"
+   },
+   "blocks": {
+    "b0": {
+     "type": "question",
+     "settings": {
+      "question": "Where is my order?",
+      "answer": "<p>You'll get a tracking link by email as soon as your coffee ships — usually within 24 hours of roasting.</p>"
+     }
+    },
+    "b1": {
+     "type": "question",
+     "settings": {
+      "question": "Can I change my grind after ordering?",
+      "answer": "<p>Yes, until roasting day. Just reply to your order confirmation.</p>"
+     }
+    },
+    "b2": {
+     "type": "question",
+     "settings": {
+      "question": "Do you supply cafés?",
+      "answer": "<p>We do — see our Wholesale page or write to wholesale@altura.coffee.</p>"
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2"
+   ]
+  }
+ },
+ "order": [
+  "main",
+  "form",
+  "faq"
+ ]
+}

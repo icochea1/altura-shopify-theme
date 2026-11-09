@@ -1,0 +1,60 @@
+{
+ "type": "header",
+ "name": "Header group",
+ "sections": {
+  "announcement": {
+   "type": "announcement-bar",
+   "blocks": {
+    "a1": {
+     "type": "message",
+     "settings": {
+      "text": "Free shipping on orders over $60",
+      "icon": "truck",
+      "link": "",
+      "link_label": ""
+     }
+    },
+    "a2": {
+     "type": "message",
+     "settings": {
+      "text": "New harvest: Cajamarca Geisha is back — 120 bags only",
+      "icon": "flame",
+      "link": "shopify://collections/single-origin",
+      "link_label": "Shop the drop"
+     }
+    },
+    "a3": {
+     "type": "message",
+     "settings": {
+      "text": "Roasted to order every Tuesday & Friday in Lima",
+      "icon": "leaf",
+      "link": "",
+      "link_label": ""
+     }
+    }
+   },
+   "block_order": [
+    "a1",
+    "a2",
+    "a3"
+   ]
+  },
+  "header": {
+   "type": "header",
+   "settings": {
+    "wordmark": "Altura",
+    "menu": "main-menu",
+    "sticky": "smart",
+    "overlay_home": true,
+    "mega_image": "shopify://shop_images/altura-drop-geisha.jpg",
+    "mega_eyebrow": "Limited release",
+    "mega_title": "Cajamarca Geisha",
+    "mega_link": "shopify://products/cajamarca-geisha"
+   }
+  }
+ },
+ "order": [
+  "announcement",
+  "header"
+ ]
+}

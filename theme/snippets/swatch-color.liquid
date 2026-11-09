@@ -1,0 +1,25 @@
+{%- liquid
+  assign n = name | downcase | strip
+  case n
+    when 'clay', 'terracotta'
+      echo '#B9643F'
+    when 'bone', 'ivory', 'white'
+      echo '#ECE5D8'
+    when 'ink', 'black', 'matte black'
+      echo '#23211F'
+    when 'sage', 'green'
+      echo '#8A9A80'
+    when 'copper'
+      echo '#B87333'
+    when 'stone', 'grey', 'gray'
+      echo '#A8A29A'
+    when 'walnut'
+      echo '#5C4033'
+    when 'sand'
+      echo '#D8C3A0'
+    when 'brushed steel', 'steel', 'silver'
+      echo '#C3C5C6'
+    else
+      echo '#CBBBA8'
+  endcase
+-%}

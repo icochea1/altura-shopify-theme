@@ -1,0 +1,14 @@
+<section class="not-found">
+  <div class="container">
+    <div class="not-found__num">404</div>
+    <h1 class="h2">This page went for a coffee.</h1>
+    <p class="lead" style="margin:0 auto 2em">The link may be old or mistyped. Let's get you back to something good.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="{{ routes.root_url }}" class="btn">Back home</a>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn--outline">Shop all</a>
+    </div>
+  </div>
+</section>
+{% schema %}
+{ "name": "404" }
+{% endschema %}

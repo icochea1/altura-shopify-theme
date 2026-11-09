@@ -1,0 +1,24 @@
+<section class="marquee {{ section.settings.style }}" style="--speed: {{ section.settings.speed }}s" aria-label="{{ section.blocks | map: 'settings' | map: 'text' | join: ', ' | escape }}">
+  <div class="marquee__track" aria-hidden="true">
+    {%- for i in (1..2) -%}
+      {%- for n in (1..3) -%}
+        {%- for block in section.blocks -%}
+          <span class="marquee__item" {% if i == 1 and n == 1 %}{{ block.shopify_attributes }}{% endif %}>{{ block.settings.text }}<i class="marquee__sep"></i></span>
+        {%- endfor -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Scrolling text",
+  "settings": [
+    { "type": "select", "id": "style", "label": "Style", "default": "", "options": [
+      { "value": "", "label": "Default" }, { "value": "section--dark", "label": "Dark" }, { "value": "section--accent", "label": "Accent" }, { "value": "section--surface", "label": "Surface" } ] },
+    { "type": "range", "id": "speed", "label": "Duration (seconds)", "min": 15, "max": 90, "step": 5, "default": 45 }
+  ],
+  "blocks": [{ "type": "text", "name": "Text", "settings": [{ "type": "text", "id": "text", "label": "Text", "default": "Direct trade" }] }],
+  "presets": [{ "name": "Scrolling text", "blocks": [{ "type": "text" }, { "type": "text" }] }]
+}
+{% endschema %}

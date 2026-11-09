@@ -1,0 +1,105 @@
+{%- liquid
+  assign threshold = settings.free_shipping_threshold | times: 100
+  assign remaining = threshold | minus: cart.total_price
+  if threshold > 0
+    assign pct = cart.total_price | times: 100 | divided_by: threshold
+  else
+    assign pct = 100
+  endif
+  if pct > 100
+    assign pct = 100
+  endif
+-%}
+<div class="drawer drawer--right" id="CartDrawer" aria-hidden="true">
+  <div class="drawer__backdrop" data-drawer-close></div>
+  <div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Your bag">
+    <div data-cart-drawer-inner style="display:contents">
+      <div class="drawer__head">
+        <h2>Your bag {% if cart.item_count > 0 %}<sup class="muted" style="font-size:.9rem">({{ cart.item_count }})</sup>{% endif %}</h2>
+        <button class="icon-button" data-drawer-close aria-label="Close bag">{% render 'icon', name: 'close' %}</button>
+      </div>
+      <div class="drawer__body">
+        {%- if threshold > 0 -%}
+          <div class="ship-bar">
+            {%- if remaining > 0 -%}
+              You're <strong>{{ remaining | money }}</strong> away from free shipping
+            {%- else -%}
+              {% render 'icon', name: 'truck', size: 16 %} <strong>You've unlocked free shipping.</strong>
+            {%- endif -%}
+            <div class="ship-bar__track"><i style="width: {{ pct }}%"></i></div>
+          </div>
+        {%- endif -%}
+
+        {%- if cart.item_count == 0 -%}
+          <div class="cart-empty">
+            {% render 'icon', name: 'bag', size: 44 %}
+            <h3>Your bag is empty</h3>
+            <p class="muted">Fresh roasts ship every Tuesday and Friday.</p>
+            <a href="{{ routes.all_products_collection_url }}" class="btn" data-drawer-close>Shop coffee {% render 'icon', name: 'arrow-right', size: 16 %}</a>
+          </div>
+        {%- else -%}
+          {%- for item in cart.items -%}
+            <div class="cart-item" data-line-key="{{ item.key }}">
+              <a href="{{ item.url }}" class="cart-item__img">
+                {%- if item.image -%}{{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: item.title }}{%- endif -%}
+              </a>
+              <div>
+                <a href="{{ item.url }}" class="cart-item__title">{{ item.product.title }}</a>
+                {%- unless item.product.has_only_default_variant -%}<div class="cart-item__variant">{{ item.variant.title }}</div>{%- endunless -%}
+                {%- for d in item.line_level_discount_allocations -%}<div class="cart-item__variant" style="color:var(--c-sale)">{{ d.discount_application.title }} (−{{ d.amount | money }})</div>{%- endfor -%}
+                <div class="qty qty--small">
+                  <button type="button" data-line-qty="-1" aria-label="Decrease">{% render 'icon', name: 'minus', size: 14 %}</button>
+                  <input type="number" value="{{ item.quantity }}" min="0" aria-label="Quantity">
+                  <button type="button" data-line-qty="1" aria-label="Increase">{% render 'icon', name: 'plus', size: 14 %}</button>
+                </div>
+              </div>
+              <div class="cart-item__right">
+                <span class="price">
+                  {%- if item.original_line_price > item.final_line_price -%}<s>{{ item.original_line_price | money }}</s>{%- endif -%}
+                  {{ item.final_line_price | money }}
+                </span>
+                <button class="cart-item__remove" data-line-remove>Remove</button>
+              </div>
+            </div>
+          {%- endfor -%}
+
+          {%- assign upsell = settings.cart_upsell_collection -%}
+          {%- if upsell != blank and upsell.products_count > 0 -%}
+            <div class="cart-upsell">
+              <h3>Pairs well with</h3>
+              {%- assign shown = 0 -%}
+              {%- for p in upsell.products -%}
+                {%- assign in_cart = false -%}
+                {%- for item in cart.items -%}{%- if item.product_id == p.id -%}{%- assign in_cart = true -%}{%- endif -%}{%- endfor -%}
+                {%- if in_cart or p.available == false or shown >= 2 -%}{%- continue -%}{%- endif -%}
+                {%- assign shown = shown | plus: 1 -%}
+                <div class="cart-upsell__item">
+                  {%- if p.featured_image -%}{{ p.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: p.title }}{%- endif -%}
+                  <div><a href="{{ p.url }}" style="font-family:var(--font-display);font-size:1.02rem;line-height:1.2;display:block">{{ p.title }}</a>{% render 'price', product: p %}</div>
+                  <button class="btn btn--outline" data-quick-add="{{ p.selected_or_first_available_variant.id }}">Add</button>
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+      {%- if cart.item_count > 0 -%}
+        <div class="drawer__foot">
+          <details class="cart-note-toggle">
+            <summary>{% render 'icon', name: 'gift', size: 16 %} {{ settings.cart_note_label }}</summary>
+            <textarea data-cart-note placeholder="Write a note for the recipient — we'll handwrite it on a card.">{{ cart.note }}</textarea>
+          </details>
+          {%- for d in cart.cart_level_discount_applications -%}
+            <div class="cart-totals" style="font-size:.9rem"><span>{{ d.title }}</span><span>−{{ d.total_allocated_amount | money }}</span></div>
+          {%- endfor -%}
+          <div class="cart-totals"><span>Subtotal</span><strong>{{ cart.total_price | money_with_currency }}</strong></div>
+          <p class="muted" style="font-size:.8rem">Taxes and shipping calculated at checkout.</p>
+          <form action="{{ routes.cart_url }}" method="post">
+            <button type="submit" name="checkout" class="btn btn--accent btn--block" style="height:54px">Checkout {% render 'icon', name: 'arrow-right', size: 16 %}</button>
+          </form>
+          <a href="{{ routes.cart_url }}" class="muted" style="display:block;text-align:center;font-size:.85rem;margin-top:12px;text-decoration:underline">View full bag</a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<section class="section {{ section.settings.style }}">
+  <div class="container">
+    <div class="faq-wrap">
+      <div data-reveal>
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2>{{ section.settings.title }}</h2>
+        <p class="lead">{{ section.settings.text }}</p>
+        {%- if section.settings.button_label != blank -%}<a href="{{ section.settings.button_link }}" class="btn btn--outline" style="margin-top:1em">{{ section.settings.button_label }}</a>{%- endif -%}
+      </div>
+      <div class="accordion" data-reveal style="--d:1">
+        {%- for block in section.blocks -%}
+          <details {{ block.shopify_attributes }}{% if forloop.first and section.settings.open_first %} open{% endif %}>
+            <summary>{{ block.settings.question }}<span class="plus" aria-hidden="true"></span></summary>
+            <div class="accordion__body rte">{{ block.settings.answer }}</div>
+          </details>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+{%- if section.blocks.size > 0 -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org", "@type": "FAQPage",
+  "mainEntity": [{%- for block in section.blocks -%}{ "@type": "Question", "name": {{ block.settings.question | json }}, "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} } }{% unless forloop.last %},{% endunless %}{%- endfor -%}]
+}
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Questions" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Good to know" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Can't find what you need? Our team replies within a few hours." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Contact us" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "checkbox", "id": "open_first", "label": "Open first question", "default": true },
+    { "type": "select", "id": "style", "label": "Background", "default": "", "options": [ { "value": "", "label": "Default" }, { "value": "section--surface", "label": "Surface" } ] }
+  ],
+  "blocks": [{ "type": "question", "name": "Question", "settings": [
+    { "type": "text", "id": "question", "label": "Question", "default": "How fresh is the coffee?" },
+    { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>We roast every Tuesday and Friday and ship within 24 hours.</p>" }
+  ] }],
+  "presets": [{ "name": "FAQ", "blocks": [{ "type": "question" }, { "type": "question" }] }]
+}
+{% endschema %}

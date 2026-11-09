@@ -1,0 +1,30 @@
+<section class="section {{ section.settings.style }}">
+  <div class="container" data-rail-wrap>
+    <div class="section-head">
+      <div><p class="eyebrow">{{ section.settings.eyebrow }}</p><h2>{{ section.settings.title }}</h2></div>
+      <div class="rail-nav">
+        <button data-rail-prev aria-label="Previous">{% render 'icon', name: 'arrow-left', size: 18 %}</button>
+        <button data-rail-next aria-label="Next">{% render 'icon', name: 'arrow-right', size: 18 %}</button>
+      </div>
+    </div>
+    <div data-recommendations data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=8">
+      {%- if recommendations.performed and recommendations.products_count > 0 -%}
+        <div class="rail" style="--cols: 4">
+          {%- for p in recommendations.products -%}{% render 'product-card', product: p, index: forloop.index0 %}{%- endfor -%}
+        </div>
+        <div class="rail-progress"><span></span></div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product recommendations",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Pairs well with" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "You might also like" },
+    { "type": "select", "id": "style", "label": "Background", "default": "section--surface", "options": [ { "value": "", "label": "Default" }, { "value": "section--surface", "label": "Surface" } ] }
+  ]
+}
+{% endschema %}

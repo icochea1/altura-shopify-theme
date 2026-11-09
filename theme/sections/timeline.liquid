@@ -1,0 +1,30 @@
+<section class="section">
+  <div class="container">
+    <div class="faq-wrap">
+      <div data-reveal><p class="eyebrow">{{ section.settings.eyebrow }}</p><h2>{{ section.settings.title }}</h2></div>
+      <div class="timeline">
+        {%- for block in section.blocks -%}
+          <div class="timeline__item" data-reveal style="--d: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            <div class="timeline__year">{{ block.settings.year }}</div>
+            <div><h3>{{ block.settings.title }}</h3><p class="muted">{{ block.settings.text }}</p></div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Timeline",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Milestones" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "From one farm to forty-two" }
+  ],
+  "blocks": [{ "type": "event", "name": "Event", "settings": [
+    { "type": "text", "id": "year", "label": "Year", "default": "2016" },
+    { "type": "text", "id": "title", "label": "Title", "default": "First harvest" },
+    { "type": "textarea", "id": "text", "label": "Text" }
+  ] }],
+  "presets": [{ "name": "Timeline", "blocks": [{ "type": "event" }, { "type": "event" }] }]
+}
+{% endschema %}

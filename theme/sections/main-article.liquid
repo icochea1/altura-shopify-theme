@@ -1,0 +1,25 @@
+<article>
+  <div class="container">
+    <header class="article-hero">
+      <p class="eyebrow">{% if article.tags.size > 0 %}{{ article.tags.first }} · {% endif %}{{ article.published_at | date: '%B %d, %Y' }}</p>
+      <h1 class="h2">{{ article.title }}</h1>
+      <p class="muted">By {{ article.author }} · {{ article.content | strip_html | split: ' ' | size | divided_by: 200 | plus: 1 }} min read</p>
+    </header>
+    {%- if article.image -%}
+      <div class="article-cover">{{ article.image | image_url: width: 2200 | image_tag: loading: 'eager', sizes: '100vw', widths: '800, 1200, 1600, 2200', alt: article.image.alt | default: article.title }}</div>
+    {%- endif -%}
+  </div>
+  <div class="container container--narrow rte article-body">{{ article.content }}</div>
+  <div class="container container--narrow" style="margin-top:56px;padding-top:28px;border-top:1px solid var(--c-line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">
+    <a href="{{ blog.url }}" class="link-arrow">{% render 'icon', name: 'arrow-left', size: 16 %} Back to journal</a>
+    <div class="chip-row">
+      <a class="chip" target="_blank" rel="noopener" href="https://twitter.com/intent/tweet?url={{ request.origin }}{{ article.url }}&text={{ article.title | url_encode }}">Share on X</a>
+      <a class="chip" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u={{ request.origin }}{{ article.url }}">Facebook</a>
+      <a class="chip" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/button/?url={{ request.origin }}{{ article.url }}">Pinterest</a>
+    </div>
+  </div>
+</article>
+<div style="height:clamp(56px,8vw,120px)"></div>
+{% schema %}
+{ "name": "Article" }
+{% endschema %}

@@ -1,0 +1,88 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_background }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- endif -%}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+
+    {%- render 'css-variables' -%}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
+    <script>
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      window.theme = {
+        routes: {
+          root: {{ routes.root_url | json }},
+          cart_add_url: {{ routes.cart_add_url | json }},
+          cart_change_url: {{ routes.cart_change_url | json }},
+          cart_update_url: {{ routes.cart_update_url | json }},
+          cart_url: {{ routes.cart_url | json }},
+          predictive_search_url: {{ routes.predictive_search_url | json }}
+        },
+        freeShippingThreshold: {{ settings.free_shipping_threshold | times: 100 | json }},
+        moneyFormat: {{ shop.money_format | json }}
+      };
+    </script>
+  </head>
+
+  <body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}--{{ template.suffix }}{% endif %}">
+    <a class="skip-link visually-hidden" href="#MainContent">Skip to content</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" class="main" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% section 'cart-drawer' %}
+
+    <div class="search-modal" id="SearchModal" hidden>
+      <div class="search-modal__backdrop" data-search-close></div>
+      <div class="search-modal__panel" role="dialog" aria-modal="true" aria-label="Search">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="search-modal__form">
+          {% render 'icon', name: 'search' %}
+          <input type="search" name="q" id="SearchInput" placeholder="Search coffees, gear, brew guides…" autocomplete="off" aria-label="Search">
+          <input type="hidden" name="options[prefix]" value="last">
+          <button type="button" class="icon-button" data-search-close aria-label="Close search">{% render 'icon', name: 'close' %}</button>
+        </form>
+        <div class="search-modal__results" id="PredictiveResults" aria-live="polite">
+          <div class="search-modal__suggest">
+            <p class="eyebrow">Popular right now</p>
+            <div class="chip-row">
+              <a class="chip" href="{{ routes.search_url }}?q=geisha">Geisha</a>
+              <a class="chip" href="{{ routes.search_url }}?q=espresso">Espresso</a>
+              <a class="chip" href="{{ routes.search_url }}?q=pour-over">Pour-over</a>
+              <a class="chip" href="{{ routes.search_url }}?q=decaf">Decaf</a>
+              <a class="chip" href="{{ routes.search_url }}?q=gift">Gifts</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="Toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

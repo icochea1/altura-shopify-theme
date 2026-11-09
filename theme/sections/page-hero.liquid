@@ -1,0 +1,21 @@
+<section class="collection-hero" style="min-height: {{ section.settings.height }}vh; display:flex; align-items:flex-end">
+  {%- if section.settings.image -%}<div class="collection-hero__media">{{ section.settings.image | image_url: width: 2200 | image_tag: loading: 'eager', sizes: '100vw', widths: '800, 1200, 1600, 2200', alt: '' }}</div>{%- endif -%}
+  <div class="container collection-hero__inner" style="width:100%">
+    <p class="eyebrow" style="color:#E9B48F">{{ section.settings.eyebrow }}</p>
+    <h1 style="max-width:16ch">{{ section.settings.title }}</h1>
+    <p class="lead">{{ section.settings.text }}</p>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Page hero",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "range", "id": "height", "label": "Height", "min": 40, "max": 100, "step": 5, "unit": "vh", "default": 75 },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "About" },
+    { "type": "textarea", "id": "title", "label": "Heading", "default": "We go to the source" },
+    { "type": "textarea", "id": "text", "label": "Text" }
+  ],
+  "presets": [{ "name": "Page hero" }]
+}
+{% endschema %}

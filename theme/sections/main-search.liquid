@@ -1,0 +1,40 @@
+<div class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Search</p>
+    <h1 class="h2">{% if search.performed %}Results for “{{ search.terms | escape }}”{% else %}Search the shop{% endif %}</h1>
+    <form action="{{ routes.search_url }}" method="get" class="newsletter__form" style="max-width:560px;margin:24px auto 0;background:var(--c-bg);border-color:var(--c-line)">
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search coffees, gear, guides…" aria-label="Search">
+      <button class="btn" type="submit">Search</button>
+    </form>
+  </div>
+</div>
+<section class="section" style="padding-top:0">
+  <div class="container">
+    {%- if search.performed -%}
+      {%- paginate search.results by 24 -%}
+        <p class="toolbar__count" style="margin-bottom:24px">{{ search.results_count }} {{ search.results_count | pluralize: 'result', 'results' }}</p>
+        {%- if search.results_count > 0 -%}
+          <div class="product-grid" style="--cols: 4">
+            {%- for item in search.results -%}
+              {%- if item.object_type == 'product' -%}
+                {% render 'product-card', product: item, index: forloop.index0 %}
+              {%- else -%}
+                <a href="{{ item.url }}" class="card" style="background:var(--c-surface);border-radius:var(--radius);padding:24px;justify-content:flex-end;min-height:260px">
+                  <span class="card__meta">{% if item.object_type == 'article' %}Journal{% else %}Page{% endif %}</span>
+                  <span class="card__title">{{ item.title }}</span>
+                  <span class="card__notes">{{ item.content | strip_html | truncate: 90 }}</span>
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          {%- if paginate.pages > 1 -%}{{ paginate | default_pagination | replace: 'class="page', 'class="pagination__page' }}{%- endif -%}
+        {%- else -%}
+          <div class="empty"><p class="lead" style="margin:0 auto">Nothing found. Try “geisha”, “kettle” or “decaf”.</p></div>
+        {%- endif -%}
+      {%- endpaginate -%}
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{ "name": "Search results" }
+{% endschema %}

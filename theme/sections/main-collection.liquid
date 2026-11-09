@@ -1,0 +1,165 @@
+{%- if template.name != 'search' -%}
+  <div class="collection-hero{% unless collection.image %} collection-hero--plain{% endunless %}">
+    {%- if collection.image -%}<div class="collection-hero__media">{{ collection.image | image_url: width: 2000 | image_tag: loading: 'eager', sizes: '100vw', widths: '800, 1200, 1600, 2000', alt: '' }}</div>{%- endif -%}
+    <div class="container collection-hero__inner">
+      <nav class="breadcrumbs" aria-label="Breadcrumb" style="color:inherit;opacity:.75"><a href="{{ routes.root_url }}">Home</a><span>/</span><span>{{ collection.title }}</span></nav>
+      <h1>{{ collection.title }}</h1>
+      {%- if collection.description != blank -%}<div class="lead rte">{{ collection.description }}</div>{%- endif -%}
+    </div>
+  </div>
+{%- else -%}
+  <div class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Search</p>
+      <h1 class="h2">{% if search.terms != blank %}Results for “{{ search.terms | escape }}”{% else %}Search the shop{% endif %}</h1>
+      <form action="{{ routes.search_url }}" method="get" class="newsletter__form" style="max-width:560px;margin:24px auto 0;background:var(--c-bg);border-color:var(--c-line)">
+        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search coffees, gear…" aria-label="Search">
+        <input type="hidden" name="type" value="product">
+        <button class="btn" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+{%- endif -%}
+
+<section class="section" style="padding-top:0" data-collection-section data-section-id="{{ section.id }}">
+  <div class="container">
+    {%- paginate collection.products by section.settings.per_page -%}
+    {%- if template.name == 'search' -%}{%- assign items = search.results -%}{%- else -%}{%- assign items = collection.products -%}{%- endif -%}
+    <div class="toolbar">
+      <div style="display:flex;gap:12px;align-items:center">
+        <button class="btn btn--outline filters-toggle" data-filters-open style="padding:.6em 1.1em">{% render 'icon', name: 'filter', size: 16 %} Filter</button>
+        <span class="toolbar__count" id="ProductCount">{{ paginate.items }} {{ paginate.items | pluralize: 'product', 'products' }}</span>
+      </div>
+      {%- if template.name != 'search' -%}
+        <label style="display:flex;align-items:center;gap:10px;font-size:.88rem">
+          <span class="muted">Sort</span>
+          <select id="SortBy" name="sort_by" aria-label="Sort by">
+            {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+            {%- for option in collection.sort_options -%}<option value="{{ option.value }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name }}</option>{%- endfor -%}
+          </select>
+        </label>
+      {%- endif -%}
+    </div>
+
+    <div class="collection-layout">
+      <aside class="filters-panel" aria-label="Filters">
+        <div class="filters-panel__head filters-toggle">
+          <h2 style="font-size:1.6rem;margin:0">Filter</h2>
+          <button class="icon-button" data-filters-close aria-label="Close filters">{% render 'icon', name: 'close' %}</button>
+        </div>
+        {%- liquid
+          assign roast_tags = 'light-roast,medium-roast,dark-roast,decaf' | split: ','
+          assign theme_tags = 'single-origin,blend,limited,bestseller,new,gift' | split: ','
+          assign base_url = collection.url
+        -%}
+        <div class="filters" id="TagFilters">
+          {%- assign has_roast = false -%}
+          {%- for t in roast_tags -%}{%- if collection.all_tags contains t -%}{%- assign has_roast = true -%}{%- endif -%}{%- endfor -%}
+          {%- if has_roast -%}
+            <details open>
+              <summary>Roast {% render 'icon', name: 'chevron-down', size: 16 %}</summary>
+              <div class="chip-row" style="padding-bottom:16px">
+                {%- for t in roast_tags -%}
+                  {%- if collection.all_tags contains t -%}
+                    {%- assign active = false -%}{%- if current_tags contains t -%}{%- assign active = true -%}{%- endif -%}
+                    <a class="chip{% if active %} chip--active{% endif %}" data-filter-link href="{% if active %}{{ base_url }}{% else %}{{ base_url }}/{{ t }}{% endif %}">{{ t | replace: '-', ' ' | capitalize }}</a>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+            </details>
+          {%- endif -%}
+          <details open>
+            <summary>Highlights {% render 'icon', name: 'chevron-down', size: 16 %}</summary>
+            <div class="chip-row" style="padding-bottom:16px">
+              {%- for t in theme_tags -%}
+                {%- if collection.all_tags contains t -%}
+                  {%- assign active = false -%}{%- if current_tags contains t -%}{%- assign active = true -%}{%- endif -%}
+                  <a class="chip{% if active %} chip--active{% endif %}" data-filter-link href="{% if active %}{{ base_url }}{% else %}{{ base_url }}/{{ t }}{% endif %}">{{ t | replace: '-', ' ' | capitalize }}</a>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </details>
+        </div>
+        <form id="FiltersForm" class="filters">
+          {%- if template.name == 'search' -%}<input type="hidden" name="q" value="{{ search.terms | escape }}">{%- endif -%}
+          {%- for filter in collection.filters -%}
+            <details{% if forloop.index <= 3 or filter.active_values.size > 0 %} open{% endif %}>
+              <summary>{{ filter.label }} {% render 'icon', name: 'chevron-down', size: 16 %}</summary>
+              {%- case filter.type -%}
+                {%- when 'list', 'boolean' -%}
+                  <ul>
+                    {%- for value in filter.values -%}
+                      <li>
+                        <label class="check{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                          <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                          {%- if filter.label == 'Color' -%}<span class="dot" style="background: {% render 'swatch-color', name: value.label %}"></span>{%- endif -%}
+                          <span>{{ value.label }}</span><span class="count">{{ value.count }}</span>
+                        </label>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- when 'price_range' -%}
+                  <div class="price-range">
+                    <input type="number" name="{{ filter.min_value.param_name }}" placeholder="{{ 0 | money_without_currency }}" value="{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | replace: ',', '' }}{% endif %}" min="0" aria-label="Minimum price">
+                    <span>–</span>
+                    <input type="number" name="{{ filter.max_value.param_name }}" placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}" value="{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | replace: ',', '' }}{% endif %}" min="0" aria-label="Maximum price">
+                  </div>
+              {%- endcase -%}
+            </details>
+          {%- endfor -%}
+        </form>
+        <button class="btn btn--block filters-toggle" data-filters-close style="margin-top:20px">Show results</button>
+      </aside>
+
+      <div>
+        <div class="active-filters" id="ActiveFilters">
+          {%- for filter in collection.filters -%}
+            {%- for value in filter.active_values -%}<a href="{{ value.url_to_remove }}">{{ value.label }} {% render 'icon', name: 'close', size: 12 %}</a>{%- endfor -%}
+            {%- if filter.type == 'price_range' and filter.min_value.value != nil or filter.type == 'price_range' and filter.max_value.value != nil -%}
+              <a href="{{ filter.url_to_remove }}">{{ filter.min_value.value | default: 0 | money }} – {{ filter.max_value.value | default: filter.range_max | money }} {% render 'icon', name: 'close', size: 12 %}</a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+        <div id="CollectionResults">
+          {%- if items.size > 0 -%}
+            <div class="product-grid" style="--cols: {{ section.settings.columns }}">
+              {%- for item in items -%}
+                {%- if item.object_type == 'product' or template.name != 'search' -%}
+                  {% render 'product-card', product: item, index: forloop.index0 %}
+                {%- else -%}
+                  <a href="{{ item.url }}" class="card" style="background:var(--c-surface);border-radius:var(--radius);padding:24px;justify-content:flex-end;aspect-ratio:4/5"><span class="card__meta">{{ item.object_type }}</span><span class="card__title">{{ item.title }}</span></a>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+            {%- if paginate.pages > 1 -%}
+              <ul class="pagination">
+                {%- if paginate.previous -%}<li><a href="{{ paginate.previous.url }}" aria-label="Previous page">{% render 'icon', name: 'arrow-left', size: 16 %}</a></li>{%- endif -%}
+                {%- for part in paginate.parts -%}
+                  <li>{%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- elsif part.title == paginate.current_page -%}<span class="is-current">{{ part.title }}</span>{%- else -%}<span>{{ part.title }}</span>{%- endif -%}</li>
+                {%- endfor -%}
+                {%- if paginate.next -%}<li><a href="{{ paginate.next.url }}" aria-label="Next page">{% render 'icon', name: 'arrow-right', size: 16 %}</a></li>{%- endif -%}
+              </ul>
+            {%- endif -%}
+          {%- else -%}
+            <div class="empty">
+              <h2 class="h3">No products match</h2>
+              <p class="muted">Try removing a filter or two.</p>
+              <a class="btn btn--outline" href="{{ collection.url | default: routes.all_products_collection_url }}">Clear filters</a>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product grid",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 24 },
+    { "type": "range", "id": "columns", "label": "Columns", "min": 2, "max": 4, "step": 1, "default": 3 }
+  ]
+}
+{% endschema %}

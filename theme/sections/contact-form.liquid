@@ -1,0 +1,37 @@
+<section class="section" style="padding-top:0">
+  <div class="container">
+    <div class="contact-grid">
+      <div data-reveal>
+        <div class="media media--portrait" style="margin-bottom:24px">{%- if section.settings.image -%}{{ section.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}</div>
+        <div class="rte">{{ section.settings.info }}</div>
+      </div>
+      <div data-reveal style="--d:1">
+        <h2 class="h3">{{ section.settings.title }}</h2>
+        {%- form 'contact', id: 'ContactForm' -%}
+          {%- if form.posted_successfully? -%}<div class="form-msg form-msg--success">Thanks — we'll get back to you within a few hours.</div>{%- endif -%}
+          {%- if form.errors -%}<div class="form-msg form-msg--error">{{ form.errors | default_errors }}</div>{%- endif -%}
+          <div class="field-row">
+            <div class="field"><label for="CName">Name</label><input id="CName" name="contact[name]" autocomplete="name" value="{{ form.name }}"></div>
+            <div class="field"><label for="CEmail">Email *</label><input id="CEmail" type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}"></div>
+          </div>
+          <div class="field"><label for="CTopic">Topic</label>
+            <select id="CTopic" name="contact[topic]"><option>An order</option><option>Wholesale & cafés</option><option>Subscriptions</option><option>Press</option><option>Something else</option></select>
+          </div>
+          <div class="field"><label for="CMsg">Message</label><textarea id="CMsg" name="contact[body]" rows="6">{{ form.body }}</textarea></div>
+          <button type="submit" class="btn btn--accent">Send message {% render 'icon', name: 'arrow-right', size: 16 %}</button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Contact form",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Send us a note" },
+    { "type": "richtext", "id": "info", "label": "Info", "default": "<p><strong>Roastery & café</strong><br>Av. Larco 345, Miraflores, Lima</p>" }
+  ],
+  "presets": [{ "name": "Contact form" }]
+}
+{% endschema %}

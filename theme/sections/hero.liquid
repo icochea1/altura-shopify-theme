@@ -1,0 +1,74 @@
+{%- assign h = section.settings.height -%}
+<section class="hero" data-hero data-autoplay="{{ section.settings.autoplay }}" style="--hero-h: {% if h == 'full' %}100svh{% elsif h == 'large' %}86svh{% else %}68svh{% endif %}">
+  <div class="hero__slides">
+    {%- for block in section.blocks -%}
+      <div class="hero__slide" {{ block.shopify_attributes }}>
+        <div class="hero__media">
+          {%- if block.settings.video != blank -%}
+            {{ block.settings.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1920x' }}
+          {%- elsif block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '750, 1100, 1500, 1920, 2400', alt: block.settings.image.alt }}
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+        <div class="hero__content{% if block.settings.align == 'center' %} hero__content--center{% endif %}">
+          <div class="container">
+            <div class="hero__text">
+              {%- if block.settings.eyebrow != blank -%}<p class="eyebrow hero__fade" style="color:#E9B48F">{{ block.settings.eyebrow }}</p>{%- endif -%}
+              <h1 class="hero__title">
+                {%- assign lines = block.settings.title | newline_to_br | split: '<br />' -%}
+                {%- for line in lines -%}<span class="hero__line"><span style="--i: {{ forloop.index0 }}">{{ line | strip }}</span></span>{%- endfor -%}
+              </h1>
+              {%- if block.settings.text != blank -%}<p class="hero__sub hero__fade">{{ block.settings.text }}</p>{%- endif -%}
+              <div class="hero__ctas hero__fade">
+                {%- if block.settings.btn1_label != blank -%}<a href="{{ block.settings.btn1_link }}" class="btn btn--light">{{ block.settings.btn1_label }} {% render 'icon', name: 'arrow-right', size: 16 %}</a>{%- endif -%}
+                {%- if block.settings.btn2_label != blank -%}<a href="{{ block.settings.btn2_link }}" class="btn btn--outline">{{ block.settings.btn2_label }}</a>{%- endif -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+  {%- if section.blocks.size > 1 -%}
+    <div class="hero__controls">
+      <div class="hero__dots">
+        {%- for block in section.blocks -%}<button class="hero__dot" aria-label="Go to slide {{ forloop.index }}"></button>{%- endfor -%}
+      </div>
+      <button class="icon-button" data-hero-toggle aria-label="Pause slideshow" style="color:#F5EFE6">{% render 'icon', name: 'pause', size: 18 %}</button>
+    </div>
+  {%- endif -%}
+  <div class="hero__scroll">Scroll</div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero slideshow",
+  "class": "section-hero",
+  "settings": [
+    { "type": "select", "id": "height", "label": "Height", "default": "full", "options": [
+      { "value": "full", "label": "Full screen" }, { "value": "large", "label": "Large" }, { "value": "medium", "label": "Medium" } ] },
+    { "type": "range", "id": "autoplay", "label": "Seconds per slide", "min": 3, "max": 12, "step": 1, "default": 7 }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "video", "id": "video", "label": "Video (overrides image)" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Single origin · Perú" },
+        { "type": "textarea", "id": "title", "label": "Heading (one line per row, <em> allowed)", "default": "Grown higher.\nTastes <em>brighter.</em>" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Direct-trade specialty coffee from small farms 1,600–2,300 m above sea level." },
+        { "type": "text", "id": "btn1_label", "label": "Primary button", "default": "Shop coffee" },
+        { "type": "url", "id": "btn1_link", "label": "Primary link" },
+        { "type": "text", "id": "btn2_label", "label": "Secondary button", "default": "Our story" },
+        { "type": "url", "id": "btn2_link", "label": "Secondary link" },
+        { "type": "select", "id": "align", "label": "Alignment", "default": "left", "options": [ { "value": "left", "label": "Bottom left" }, { "value": "center", "label": "Center" } ] }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Hero slideshow", "blocks": [{ "type": "slide" }, { "type": "slide" }] }]
+}
+{% endschema %}

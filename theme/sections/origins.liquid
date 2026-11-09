@@ -1,0 +1,62 @@
+<section class="section section--dark">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2>{{ section.settings.title }}</h2>
+      </div>
+      <p class="lead" style="margin:0">{{ section.settings.text }}</p>
+    </div>
+    <div class="origins" data-origins>
+      <ul class="origins__list" data-reveal>
+        {%- for block in section.blocks -%}
+          <li class="origins__item{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+            <button class="origins__btn" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+              <span class="origins__num">0{{ forloop.index }}</span>
+              <span class="origins__name">{{ block.settings.name }}</span>
+              <span class="origins__alt">{{ block.settings.altitude }}</span>
+            </button>
+            <div class="origins__detail"><div>
+              <p>{{ block.settings.text }}</p>
+              <div class="origins__facts">
+                <div class="origins__fact">Process<b>{{ block.settings.process }}</b></div>
+                <div class="origins__fact">Variety<b>{{ block.settings.variety }}</b></div>
+                {%- if block.settings.product != blank -%}<a class="origins__fact" href="{{ block.settings.product.url }}" style="color:#E9B48F">Taste it<b style="text-decoration:underline">{{ block.settings.product.title }} →</b></a>{%- endif -%}
+              </div>
+            </div></div>
+          </li>
+        {%- endfor -%}
+      </ul>
+      <div class="origins__visual" data-reveal="fade">
+        {%- for block in section.blocks -%}
+          <div class="origins__img{% if forloop.first %} is-active{% endif %}">
+            {%- if block.settings.image -%}{{ block.settings.image | image_url: width: 1600 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 55vw, 100vw', widths: '600, 900, 1200, 1600', alt: block.settings.name }}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}
+          </div>
+        {%- endfor -%}
+        <div class="origins__badge">{% render 'icon', name: 'pin', size: 18 %}<span>{{ section.settings.badge }}</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Origins explorer",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Origins" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Five regions. One mountain range." },
+    { "type": "textarea", "id": "text", "label": "Intro", "default": "Every Altura coffee is traceable to the farm, the altitude and the family who grew it." },
+    { "type": "text", "id": "badge", "label": "Badge", "default": "All farms visited in person every harvest" }
+  ],
+  "blocks": [{ "type": "origin", "name": "Origin", "settings": [
+    { "type": "text", "id": "name", "label": "Region", "default": "Cajamarca" },
+    { "type": "text", "id": "altitude", "label": "Altitude", "default": "1,900 masl" },
+    { "type": "textarea", "id": "text", "label": "Description", "default": "Cool nights and volcanic soil." },
+    { "type": "text", "id": "process", "label": "Process", "default": "Washed" },
+    { "type": "text", "id": "variety", "label": "Variety", "default": "Geisha" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "product", "id": "product", "label": "Linked product" }
+  ] }],
+  "presets": [{ "name": "Origins explorer", "blocks": [{ "type": "origin" }, { "type": "origin" }, { "type": "origin" }] }]
+}
+{% endschema %}

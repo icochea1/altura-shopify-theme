@@ -1,0 +1,20 @@
+<style>
+  :root {
+    --c-bg: {{ settings.color_background }};
+    --c-surface: {{ settings.color_surface }};
+    --c-text: {{ settings.color_text }};
+    --c-muted: {{ settings.color_muted }};
+    --c-accent: {{ settings.color_accent }};
+    --c-dark: {{ settings.color_dark }};
+    --c-sale: {{ settings.color_sale }};
+    --c-line: {{ settings.color_text | color_modify: 'alpha', 0.12 }};
+    --c-text-rgb: {{ settings.color_text | color_to_rgb | remove: 'rgb(' | remove: ')' }};
+    --page-width: {{ settings.page_width }}px;
+    --radius: {{ settings.radius }}px;
+    --radius-sm: {{ settings.radius | divided_by: 2 }}px;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Manrope', system-ui, -apple-system, sans-serif;
+    --ease: cubic-bezier(.2,.7,.2,1);
+    --animations: {% if settings.animations %}1{% else %}0{% endif %};
+  }
+</style>

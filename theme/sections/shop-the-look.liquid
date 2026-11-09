@@ -1,0 +1,56 @@
+<section class="section">
+  <div class="container">
+    <div class="look-wrap">
+      <div class="look" data-reveal>
+        {%- if section.settings.image -%}{{ section.settings.image | image_url: width: 1800 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 60vw, 100vw', widths: '700, 1000, 1400, 1800', alt: section.settings.title }}{%- else -%}{{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}
+        {%- for block in section.blocks -%}
+          {%- assign p = block.settings.product -%}
+          {%- if p != blank -%}
+            <div class="hotspot" style="left: {{ block.settings.x }}%; top: {{ block.settings.y }}%" {{ block.shopify_attributes }}>
+              <button class="hotspot__dot" aria-label="View {{ p.title | escape }}">{% render 'icon', name: 'plus', size: 14 %}</button>
+              <a class="hotspot__card" href="{{ p.url }}">
+                {%- if p.featured_image -%}{{ p.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: p.title }}{%- endif -%}
+                <span><strong>{{ p.title }}</strong>{% render 'price', product: p %}</span>
+              </a>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <div>
+        <p class="eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+        <h2 data-reveal style="--d:1">{{ section.settings.title }}</h2>
+        <p class="lead" data-reveal style="--d:2">{{ section.settings.text }}</p>
+        <div class="look-list">
+          {%- for block in section.blocks -%}
+            {%- assign p = block.settings.product -%}
+            {%- if p != blank -%}
+              <a href="{{ p.url }}" data-reveal style="--d: {{ forloop.index | plus: 2 }}">
+                {%- if p.featured_image -%}{{ p.featured_image | image_url: width: 160 | image_tag: loading: 'lazy', alt: p.title }}{%- endif -%}
+                <span style="flex:1"><strong style="font-family:var(--font-display);font-weight:400;font-size:1.1rem;display:block">{{ p.title }}</strong><span class="muted" style="font-size:.85rem">{{ p.type }}</span></span>
+                {% render 'price', product: p %}
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop the look",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop the ritual" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "The slow morning set" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Tap the dots to explore everything on the table." }
+  ],
+  "blocks": [{ "type": "hotspot", "name": "Hotspot", "limit": 6, "settings": [
+    { "type": "product", "id": "product", "label": "Product" },
+    { "type": "range", "id": "x", "label": "Horizontal position", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 },
+    { "type": "range", "id": "y", "label": "Vertical position", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 }
+  ] }],
+  "presets": [{ "name": "Shop the look", "blocks": [{ "type": "hotspot" }, { "type": "hotspot" }] }]
+}
+{% endschema %}

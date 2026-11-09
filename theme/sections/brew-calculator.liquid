@@ -1,0 +1,66 @@
+<section class="section section--surface">
+  <div class="container">
+    <div class="brew" data-brew>
+      <script type="application/json" data-brew-methods>
+        [
+          { "id": "v60", "cup": 250, "ratio": 16, "grind": "Medium-fine", "time": "3:00", "temp": "94°C",
+            "steps": ["Rinse the filter and preheat the server.", "Add {g} g of coffee, bloom with {bloom} g of water for 40 s.", "Pour in slow spirals to {ml} g by 1:45.", "Let it drain — total time around 3:00."] },
+          { "id": "chemex", "cup": 250, "ratio": 16, "grind": "Medium-coarse", "time": "4:30", "temp": "95°C",
+            "steps": ["Rinse the thick filter with hot water.", "Add {g} g of coffee and bloom with {bloom} g for 45 s.", "Pour in 3 stages up to {ml} g.", "Drawdown finishes around 4:30."] },
+          { "id": "french", "cup": 250, "ratio": 15, "grind": "Coarse", "time": "4:00", "temp": "96°C",
+            "steps": ["Add {g} g of coarse coffee to the press.", "Pour all {ml} g of water and stir gently.", "Steep 4 minutes, break the crust.", "Press slowly and serve right away."] },
+          { "id": "aero", "cup": 200, "ratio": 13, "grind": "Fine", "time": "1:45", "temp": "88°C",
+            "steps": ["Inverted: add {g} g of fine coffee.", "Pour {ml} g of water and stir 10 times.", "Steep 1 minute, flip onto the cup.", "Press for 30 seconds."] }
+        ]
+      </script>
+      <div data-reveal>
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2>{{ section.settings.title }}</h2>
+        <p class="lead">{{ section.settings.text }}</p>
+        <div class="usps" style="--cols:1;margin-top:2em;gap:18px">
+          <div class="usp"><div class="usp__icon">{% render 'icon', name: 'scale' %}</div><div><h3>Weigh, don't scoop</h3><p>A simple scale is the biggest upgrade you can make.</p></div></div>
+          <div class="usp"><div class="usp__icon">{% render 'icon', name: 'thermometer' %}</div><div><h3>Water just off the boil</h3><p>Lighter roasts like it hotter, darker roasts a bit cooler.</p></div></div>
+        </div>
+      </div>
+      <div class="brew__card" data-reveal style="--d:2">
+        <div class="brew__methods" role="group" aria-label="Brew method">
+          <button class="brew__method" data-method="v60" aria-pressed="true">{% render 'icon', name: 'droplet', size: 22 %}Pour-over</button>
+          <button class="brew__method" data-method="chemex" aria-pressed="false">{% render 'icon', name: 'cup', size: 22 %}Chemex</button>
+          <button class="brew__method" data-method="french" aria-pressed="false">{% render 'icon', name: 'flame', size: 22 %}French press</button>
+          <button class="brew__method" data-method="aero" aria-pressed="false">{% render 'icon', name: 'refresh', size: 22 %}AeroPress</button>
+        </div>
+        <div class="brew__row">
+          <label class="brew__label" for="BrewCups-{{ section.id }}">Cups <output data-out="cups">2 × 250 ml</output></label>
+          <input id="BrewCups-{{ section.id }}" type="range" name="cups" min="1" max="8" value="2">
+        </div>
+        <div class="brew__row">
+          <label class="brew__label" for="BrewStrength-{{ section.id }}">Strength <output data-out="strength">Balanced</output></label>
+          <input id="BrewStrength-{{ section.id }}" type="range" name="strength" min="1" max="5" value="3">
+        </div>
+        <div class="brew__result">
+          <div><b data-out="coffee">31</b><span>grams coffee</span></div>
+          <div><b data-out="water">500</b><span>ml water</span></div>
+          <div><b data-out="ratio">1:16</b><span>ratio</span></div>
+        </div>
+        <div class="facts" style="grid-template-columns:repeat(3,1fr)">
+          <div><span>Grind</span><b data-out="grind">Medium-fine</b></div>
+          <div><span>Time</span><b data-out="time">3:00</b></div>
+          <div><span>Water</span><b data-out="temp">94°C</b></div>
+        </div>
+        <ol class="brew__steps" data-out="steps"></ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Brew calculator",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Brew better" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Your perfect cup, calculated." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Pick a method, choose how many cups and how strong — we'll do the math." }
+  ],
+  "presets": [{ "name": "Brew calculator" }]
+}
+{% endschema %}

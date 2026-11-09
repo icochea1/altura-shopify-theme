@@ -1,0 +1,637 @@
+{
+ "sections": {
+  "hero": {
+   "type": "hero",
+   "settings": {
+    "height": "full",
+    "autoplay": 7
+   },
+   "blocks": {
+    "b0": {
+     "type": "slide",
+     "settings": {
+      "image": "shopify://shop_images/altura-hero-farm.jpg",
+      "eyebrow": "Single origin · Perú",
+      "title": "Grown higher.\nTastes <em>brighter.</em>",
+      "text": "Direct-trade specialty coffee from small family farms 1,600–2,300 m up in the Peruvian Andes. Roasted to order in Lima.",
+      "btn1_label": "Shop coffee",
+      "btn1_link": "shopify://collections/coffee",
+      "btn2_label": "Our story",
+      "btn2_link": "shopify://pages/about",
+      "align": "left"
+     }
+    },
+    "b1": {
+     "type": "slide",
+     "settings": {
+      "image": "shopify://shop_images/altura-hero-hands.jpg",
+      "eyebrow": "New harvest",
+      "title": "Picked by hand.\nOne cherry <em>at a time.</em>",
+      "text": "The 2026 harvest is in. Meet the families behind every bag.",
+      "btn1_label": "Shop single origin",
+      "btn1_link": "shopify://collections/single-origin",
+      "btn2_label": "Meet the growers",
+      "btn2_link": "shopify://blogs/journal",
+      "align": "left"
+     }
+    },
+    "b2": {
+     "type": "slide",
+     "settings": {
+      "image": "shopify://shop_images/altura-hero-roaster.jpg",
+      "eyebrow": "Roasted twice a week",
+      "title": "From the roaster\nto your <em>door.</em>",
+      "text": "Every order is roasted on Tuesday or Friday and shipped within 24 hours.",
+      "btn1_label": "Shop best sellers",
+      "btn1_link": "shopify://collections/best-sellers",
+      "btn2_label": "",
+      "align": "center"
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2"
+   ]
+  },
+  "marquee": {
+   "type": "marquee",
+   "settings": {
+    "style": "",
+    "speed": 45
+   },
+   "blocks": {
+    "b0": {
+     "type": "text",
+     "settings": {
+      "text": "Direct trade"
+     }
+    },
+    "b1": {
+     "type": "text",
+     "settings": {
+      "text": "Roasted weekly"
+     }
+    },
+    "b2": {
+     "type": "text",
+     "settings": {
+      "text": "Grown above 1,600 m"
+     }
+    },
+    "b3": {
+     "type": "text",
+     "settings": {
+      "text": "Hand-picked"
+     }
+    },
+    "b4": {
+     "type": "text",
+     "settings": {
+      "text": "Compostable bags"
+     }
+    },
+    "b5": {
+     "type": "text",
+     "settings": {
+      "text": "Carbon-neutral shipping"
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2",
+    "b3",
+    "b4",
+    "b5"
+   ]
+  },
+  "featured": {
+   "type": "featured-collection",
+   "settings": {
+    "eyebrow": "This week's roast",
+    "title": "Fresh from the roaster",
+    "layout": "rail",
+    "columns": 4,
+    "limit": 8,
+    "button_label": "Shop all coffee",
+    "button_link": "shopify://collections/coffee",
+    "style": ""
+   },
+   "blocks": {
+    "b0": {
+     "type": "collection",
+     "settings": {
+      "collection": "coffee",
+      "label": "All coffee"
+     }
+    },
+    "b1": {
+     "type": "collection",
+     "settings": {
+      "collection": "single-origin",
+      "label": "Single origin"
+     }
+    },
+    "b2": {
+     "type": "collection",
+     "settings": {
+      "collection": "best-sellers",
+      "label": "Best sellers"
+     }
+    },
+    "b3": {
+     "type": "collection",
+     "settings": {
+      "collection": "brewing-gear",
+      "label": "Gear"
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2",
+    "b3"
+   ]
+  },
+  "story": {
+   "type": "image-with-text",
+   "settings": {
+    "image": "shopify://shop_images/altura-about-roaster.jpg",
+    "image_2": "shopify://shop_images/altura-about-cherries.jpg",
+    "reverse": false,
+    "eyebrow": "Our story",
+    "title": "Coffee that pays it forward",
+    "text": "<p>We buy directly from 42 family farms across the Peruvian Andes, pay an average of 2.4× the fair-trade minimum and visit every one of them each harvest. No middlemen, no mystery — just extraordinary coffee and the people who grow it.</p>",
+    "button_label": "Read our story",
+    "button_link": "shopify://pages/about",
+    "style": ""
+   },
+   "blocks": {
+    "b0": {
+     "type": "stat",
+     "settings": {
+      "number": "42",
+      "label": "Partner farms"
+     }
+    },
+    "b1": {
+     "type": "stat",
+     "settings": {
+      "number": "2.4×",
+      "label": "Fair-trade price"
+     }
+    },
+    "b2": {
+     "type": "stat",
+     "settings": {
+      "number": "1,950 m",
+      "label": "Highest farm"
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2"
+   ]
+  },
+  "collections": {
+   "type": "collection-list",
+   "settings": {
+    "eyebrow": "Shop by",
+    "title": "Find your ritual",
+    "link_label": "All collections",
+    "bento": true,
+    "style": ""
+   },
+   "blocks": {
+    "b0": {
+     "type": "collection",
+     "settings": {
+      "collection": "single-origin",
+      "title": "Single origin",
+      "image": "shopify://shop_images/altura-tile-single.jpg"
+     }
+    },
+    "b1": {
+     "type": "collection",
+     "settings": {
+      "collection": "blends",
+      "title": "Espresso & blends",
+      "image": "shopify://shop_images/altura-tile-blends.jpg"
+     }
+    },
+    "b2": {
+     "type": "collection",
+     "settings": {
+      "collection": "brewing-gear",
+      "title": "Brewing gear",
+      "image": "shopify://shop_images/altura-tile-gear.jpg"
+     }
+    },
+    "b3": {
+     "type": "collection",
+     "settings": {
+      "collection": "gifts",
+      "title": "Gifts & bundles",
+      "image": "shopify://shop_images/altura-tile-gifts.jpg"
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2",
+    "b3"
+   ]
+  },
+  "origins": {
+   "type": "origins",
+   "settings": {
+    "eyebrow": "Origins",
+    "title": "Five regions. One mountain range.",
+    "text": "Every Altura coffee is traceable to the farm, the altitude and the family who grew it. Hover a region to explore.",
+    "badge": "Every farm visited in person each harvest"
+   },
+   "blocks": {
+    "b0": {
+     "type": "origin",
+     "settings": {
+      "name": "Cajamarca",
+      "altitude": "1,950 masl",
+      "text": "Cool nights, volcanic soil and the shade of native pacay trees. Home of our Geisha.",
+      "process": "Washed",
+      "variety": "Geisha",
+      "image": "shopify://shop_images/altura-origin-cajamarca.jpg",
+      "product": "cajamarca-geisha"
+     }
+    },
+    "b1": {
+     "type": "origin",
+     "settings": {
+      "name": "Villa Rica",
+      "altitude": "1,650 masl",
+      "text": "A cloud-forest valley in Pasco where coffee grows between banana and avocado trees.",
+      "process": "Honey",
+      "variety": "Caturra, Typica",
+      "image": "shopify://shop_images/altura-origin-villarica.jpg",
+      "product": "villa-rica-honey"
+     }
+    },
+    "b2": {
+     "type": "origin",
+     "settings": {
+      "name": "Cusco",
+      "altitude": "1,800 masl",
+      "text": "Steep terraces in the valleys below Machu Picchu, worked by Quechua families for generations.",
+      "process": "Natural",
+      "variety": "Red Bourbon",
+      "image": "shopify://shop_images/altura-origin-cusco.jpg",
+      "product": "cusco-bourbon-natural"
+     }
+    },
+    "b3": {
+     "type": "origin",
+     "settings": {
+      "name": "Amazonas",
+      "altitude": "1,850 masl",
+      "text": "Emerald cloud forest near the Gocta waterfall. Bright, crisp, endlessly drinkable coffees.",
+      "process": "Washed",
+      "variety": "Typica",
+      "image": "shopify://shop_images/altura-origin-amazonas.jpg",
+      "product": "amazonas-washed"
+     }
+    },
+    "b4": {
+     "type": "origin",
+     "settings": {
+      "name": "Puno",
+      "altitude": "2,100 masl",
+      "text": "Some of the highest coffee on earth. Cold nights slow ripening and build deep berry sweetness.",
+      "process": "Washed",
+      "variety": "Bourbon",
+      "image": "shopify://shop_images/altura-origin-puno.jpg",
+      "product": "puno-tunki"
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2",
+    "b3",
+    "b4"
+   ]
+  },
+  "drop": {
+   "type": "countdown-drop",
+   "settings": {
+    "image": "shopify://shop_images/altura-drop-geisha.jpg",
+    "eyebrow": "Limited release · 120 bags",
+    "title": "The Geisha drop",
+    "text": "Jasmine, white peach and bergamot. Our rarest lot of the year — when this harvest is gone, it's gone until next June.",
+    "end": "2026-12-01 09:00",
+    "product": "cajamarca-geisha",
+    "button_label": "Reserve a bag"
+   }
+  },
+  "look": {
+   "type": "shop-the-look",
+   "settings": {
+    "image": "shopify://shop_images/altura-look-setup.jpg",
+    "eyebrow": "Shop the ritual",
+    "title": "The slow morning set",
+    "text": "Everything you need for a café-quality pour-over at home. Tap the dots to explore."
+   },
+   "blocks": {
+    "b0": {
+     "type": "hotspot",
+     "settings": {
+      "product": "gooseneck-kettle",
+      "x": 20,
+      "y": 68
+     }
+    },
+    "b1": {
+     "type": "hotspot",
+     "settings": {
+      "product": "glass-brewer",
+      "x": 48,
+      "y": 55
+     }
+    },
+    "b2": {
+     "type": "hotspot",
+     "settings": {
+      "product": "digital-brew-scale",
+      "x": 47,
+      "y": 82
+     }
+    },
+    "b3": {
+     "type": "hotspot",
+     "settings": {
+      "product": "ceramic-pour-over-dripper",
+      "x": 46,
+      "y": 38
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2",
+    "b3"
+   ]
+  },
+  "brew": {
+   "type": "brew-calculator",
+   "settings": {
+    "eyebrow": "Brew better",
+    "title": "Your perfect cup, calculated.",
+    "text": "Pick a method, choose how many cups and how strong you like it. We'll do the math — and give you the steps."
+   }
+  },
+  "reviews": {
+   "type": "testimonials",
+   "settings": {
+    "eyebrow": "Loved by coffee people",
+    "press": "Crema Quarterly, The Daily Grind, Origin Notes, Slow Mornings, Field & Cup",
+    "style": ""
+   },
+   "blocks": {
+    "b0": {
+     "type": "quote",
+     "settings": {
+      "quote": "The Geisha genuinely tastes like jasmine tea. I didn't know coffee could do that.",
+      "author": "Mariana T.",
+      "role": "Subscriber since 2023",
+      "avatar": "shopify://shop_images/altura-person-1.jpg"
+     }
+    },
+    "b1": {
+     "type": "quote",
+     "settings": {
+      "quote": "Roasted on Tuesday, at my door on Thursday. You can taste the difference in every cup.",
+      "author": "Daniel R.",
+      "role": "Home barista",
+      "avatar": "shopify://shop_images/altura-person-2.jpg"
+     }
+    },
+    "b2": {
+     "type": "quote",
+     "settings": {
+      "quote": "We switched our café to Altura's House Espresso and our regulars noticed within a week.",
+      "author": "Joaquín P.",
+      "role": "Café owner, Lima",
+      "avatar": "shopify://shop_images/altura-person-3.jpg"
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2"
+   ]
+  },
+  "usps": {
+   "type": "usps",
+   "settings": {
+    "style": "section--surface"
+   },
+   "blocks": {
+    "b0": {
+     "type": "item",
+     "settings": {
+      "icon": "flame",
+      "title": "Roasted to order",
+      "text": "Every Tuesday and Friday, shipped within 24 h."
+     }
+    },
+    "b1": {
+     "type": "item",
+     "settings": {
+      "icon": "truck",
+      "title": "Free shipping over $60",
+      "text": "Tracked, carbon-neutral delivery."
+     }
+    },
+    "b2": {
+     "type": "item",
+     "settings": {
+      "icon": "leaf",
+      "title": "Direct trade",
+      "text": "2.4× the fair-trade price, paid to the grower."
+     }
+    },
+    "b3": {
+     "type": "item",
+     "settings": {
+      "icon": "heart",
+      "title": "Love it or it's on us",
+      "text": "Free replacement or a full refund."
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2",
+    "b3"
+   ]
+  },
+  "journal": {
+   "type": "journal",
+   "settings": {
+    "blog": "journal",
+    "eyebrow": "Journal",
+    "title": "Stories from the source"
+   }
+  },
+  "faq": {
+   "type": "faq",
+   "settings": {
+    "eyebrow": "Questions",
+    "title": "Good to know",
+    "text": "Can't find what you need? Our team replies within a few hours, seven days a week.",
+    "button_label": "Contact us",
+    "button_link": "shopify://pages/contact",
+    "open_first": true,
+    "style": ""
+   },
+   "blocks": {
+    "b0": {
+     "type": "question",
+     "settings": {
+      "question": "How fresh is the coffee?",
+      "answer": "<p>We roast every Tuesday and Friday and ship within 24 hours. Your coffee will never be more than four days off the roaster when it arrives.</p>"
+     }
+    },
+    "b1": {
+     "type": "question",
+     "settings": {
+      "question": "Which grind should I choose?",
+      "answer": "<p>Whole bean stays fresh longest. Choose <strong>Filter</strong> for pour-over, drip and French press, and <strong>Espresso</strong> for espresso machines and moka pots.</p>"
+     }
+    },
+    "b2": {
+     "type": "question",
+     "settings": {
+      "question": "Do you offer subscriptions?",
+      "answer": "<p>Yes — save 15% with a flexible subscription delivered every 2, 3 or 4 weeks. Skip, swap or cancel any time.</p>"
+     }
+    },
+    "b3": {
+     "type": "question",
+     "settings": {
+      "question": "Is the packaging recyclable?",
+      "answer": "<p>Our bags are home-compostable and our boxes are 100% recycled cardboard.</p>"
+     }
+    },
+    "b4": {
+     "type": "question",
+     "settings": {
+      "question": "Do you ship internationally?",
+      "answer": "<p>We ship to more than 40 countries. Rates and delivery times are calculated at checkout.</p>"
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2",
+    "b3",
+    "b4"
+   ]
+  },
+  "gram": {
+   "type": "gallery-grid",
+   "settings": {
+    "eyebrow": "@altura.coffee",
+    "title": "Brewed by you"
+   },
+   "blocks": {
+    "b0": {
+     "type": "image",
+     "settings": {
+      "image": "shopify://shop_images/altura-gram-1.jpg",
+      "link": ""
+     }
+    },
+    "b1": {
+     "type": "image",
+     "settings": {
+      "image": "shopify://shop_images/altura-gram-2.jpg",
+      "link": ""
+     }
+    },
+    "b2": {
+     "type": "image",
+     "settings": {
+      "image": "shopify://shop_images/altura-gram-3.jpg",
+      "link": ""
+     }
+    },
+    "b3": {
+     "type": "image",
+     "settings": {
+      "image": "shopify://shop_images/altura-gram-4.jpg",
+      "link": ""
+     }
+    },
+    "b4": {
+     "type": "image",
+     "settings": {
+      "image": "shopify://shop_images/altura-gram-5.jpg",
+      "link": ""
+     }
+    },
+    "b5": {
+     "type": "image",
+     "settings": {
+      "image": "shopify://shop_images/altura-gram-6.jpg",
+      "link": ""
+     }
+    }
+   },
+   "block_order": [
+    "b0",
+    "b1",
+    "b2",
+    "b3",
+    "b4",
+    "b5"
+   ]
+  },
+  "newsletter": {
+   "type": "newsletter",
+   "settings": {
+    "eyebrow": "The Altura letter",
+    "title": "10% off your first bag.",
+    "text": "Harvest news, brew guides and first access to limited lots. One email a week, never more.",
+    "style": "section--accent"
+   }
+  }
+ },
+ "order": [
+  "hero",
+  "marquee",
+  "featured",
+  "story",
+  "collections",
+  "origins",
+  "drop",
+  "look",
+  "brew",
+  "reviews",
+  "usps",
+  "journal",
+  "faq",
+  "gram",
+  "newsletter"
+ ]
+}

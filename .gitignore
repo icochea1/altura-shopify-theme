@@ -1,0 +1,8 @@
+media/
+auth.log
+__pycache__/
+tools/comfy*
+tools/*.log
+tools/jobs.json
+tools/make_jobs.py
+tools/pixabay_fetch.py

@@ -1,0 +1,40 @@
+<section class="section {{ section.settings.style }}">
+  <div class="container">
+    <div class="newsletter">
+      <div data-reveal>
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2 style="margin:0">{{ section.settings.title }}</h2>
+      </div>
+      <div data-reveal style="--d:1">
+        <p class="lead" style="margin-bottom:1.4em">{{ section.settings.text }}</p>
+        {%- assign form_id = 'Newsletter-' | append: section.id -%}
+        {%- form 'customer', id: form_id -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          {%- if form.posted_successfully? -%}
+            <div class="form-msg form-msg--success">{% render 'icon', name: 'check', size: 16 %} You're in. Check your inbox for 10% off your first bag.</div>
+          {%- elsif form.errors -%}
+            <div class="form-msg form-msg--error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</div>
+          {%- endif -%}
+          <div class="newsletter__form">
+            <input type="email" name="contact[email]" required placeholder="Your email address" aria-label="Email address" autocomplete="email">
+            <button type="submit" class="btn {% if section.settings.style == '' %}btn--accent{% else %}btn--light{% endif %}">Subscribe {% render 'icon', name: 'arrow-right', size: 16 %}</button>
+          </div>
+          <p class="newsletter__note">One email a week. Unsubscribe any time.</p>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Altura letter" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "10% off your first bag." },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Harvest news, brew guides and first access to limited lots." },
+    { "type": "select", "id": "style", "label": "Background", "default": "section--accent", "options": [ { "value": "", "label": "Default" }, { "value": "section--dark", "label": "Dark" }, { "value": "section--accent", "label": "Accent" } ] }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

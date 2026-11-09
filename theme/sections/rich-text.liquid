@@ -1,0 +1,23 @@
+<section class="section {{ section.settings.style }}">
+  <div class="container container--narrow center">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>{%- endif -%}
+    {%- if section.settings.title != blank -%}<h2 data-reveal style="--d:1">{{ section.settings.title }}</h2>{%- endif -%}
+    {%- if section.settings.text != blank -%}<div class="lead rte" data-reveal style="--d:2;margin:0 auto 1.6em">{{ section.settings.text }}</div>{%- endif -%}
+    {%- if section.settings.button_label != blank -%}<a href="{{ section.settings.button_link }}" class="btn" data-reveal style="--d:3">{{ section.settings.button_label }} {% render 'icon', name: 'arrow-right', size: 16 %}</a>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Rich text",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Talk about your brand" },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "text", "id": "button_label", "label": "Button label" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "select", "id": "style", "label": "Background", "default": "", "options": [ { "value": "", "label": "Default" }, { "value": "section--surface", "label": "Surface" }, { "value": "section--dark", "label": "Dark" } ] }
+  ],
+  "presets": [{ "name": "Rich text" }]
+}
+{% endschema %}

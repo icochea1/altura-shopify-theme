@@ -1,0 +1,71 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="{{ routes.root_url }}" class="header__logo" style="justify-self:start;justify-content:flex-start">
+          <svg class="header__logo-mark" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 26 13 8l5 9 3-5 8 14z" stroke-linejoin="round"/><circle cx="23" cy="7" r="2.4"/></svg>
+          <span>{{ section.settings.wordmark | default: shop.name }}</span>
+        </a>
+        <p>{{ section.settings.tagline }}</p>
+        <div class="footer__social">
+          {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" aria-label="Instagram" target="_blank" rel="noopener">{% render 'icon', name: 'instagram', size: 18 %}</a>{%- endif -%}
+          {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" aria-label="TikTok" target="_blank" rel="noopener">{% render 'icon', name: 'tiktok', size: 18 %}</a>{%- endif -%}
+          {%- if settings.social_youtube != blank -%}<a href="{{ settings.social_youtube }}" aria-label="YouTube" target="_blank" rel="noopener">{% render 'icon', name: 'youtube', size: 18 %}</a>{%- endif -%}
+        </div>
+      </div>
+      {%- for block in section.blocks -%}
+        <div class="footer__col" {{ block.shopify_attributes }}>
+          {%- case block.type -%}
+            {%- when 'menu' -%}
+              <h4>{{ block.settings.title | default: block.settings.menu.title }}</h4>
+              <ul>
+                {%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+              </ul>
+            {%- when 'text' -%}
+              <h4>{{ block.settings.title }}</h4>
+              <div class="rte" style="color:rgba(243,236,225,.72);font-size:.95rem">{{ block.settings.text }}</div>
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  <p class="footer__wordmark" aria-hidden="true">{{ section.settings.wordmark | default: shop.name }}</p>
+  <div class="container">
+    <div class="footer__bottom">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. Roasted in Lima, Perú. {{ powered_by_link }}</span>
+      {%- form 'localization', class: 'localization-form' -%}
+        {%- if localization.available_countries.size > 1 -%}
+          <select name="country_code" onchange="this.form.submit()" aria-label="Country">
+            {%- for c in localization.available_countries -%}
+              <option value="{{ c.iso_code }}"{% if c.iso_code == localization.country.iso_code %} selected{% endif %}>{{ c.name }} ({{ c.currency.iso_code }} {{ c.currency.symbol }})</option>
+            {%- endfor -%}
+          </select>
+        {%- endif -%}
+      {%- endform -%}
+      <ul class="payment-icons">
+        {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag }}</li>{%- endfor -%}
+      </ul>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "section-footer",
+  "settings": [
+    { "type": "text", "id": "wordmark", "label": "Wordmark", "default": "Altura" },
+    { "type": "textarea", "id": "tagline", "label": "Tagline", "default": "Specialty coffee from the high Andes of Perú. Direct trade, roasted weekly, shipped fresh." }
+  ],
+  "blocks": [
+    { "type": "menu", "name": "Menu", "settings": [
+      { "type": "text", "id": "title", "label": "Heading" },
+      { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+    ] },
+    { "type": "text", "name": "Text", "settings": [
+      { "type": "text", "id": "title", "label": "Heading", "default": "Visit" },
+      { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Av. Larco 345, Miraflores</p>" }
+    ] }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,53 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Altura",
+    "theme_version": "1.0.0",
+    "theme_author": "Touch Data",
+    "theme_documentation_url": "https://touchdata.pe",
+    "theme_support_url": "https://touchdata.pe"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      { "type": "color", "id": "color_background", "label": "Background", "default": "#F5EFE6" },
+      { "type": "color", "id": "color_surface", "label": "Surface", "default": "#EDE4D6" },
+      { "type": "color", "id": "color_text", "label": "Text", "default": "#1F1A15" },
+      { "type": "color", "id": "color_muted", "label": "Muted text", "default": "#6B6158" },
+      { "type": "color", "id": "color_accent", "label": "Accent", "default": "#B4532A" },
+      { "type": "color", "id": "color_dark", "label": "Dark sections", "default": "#1D2420" },
+      { "type": "color", "id": "color_sale", "label": "Sale badge", "default": "#8E3B1E" }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      { "type": "range", "id": "page_width", "label": "Page width", "min": 1100, "max": 1600, "step": 20, "unit": "px", "default": 1400 },
+      { "type": "range", "id": "radius", "label": "Corner radius", "min": 0, "max": 28, "step": 2, "unit": "px", "default": 14 },
+      { "type": "checkbox", "id": "animations", "label": "Reveal sections on scroll", "default": true }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      { "type": "range", "id": "free_shipping_threshold", "label": "Free shipping threshold", "min": 0, "max": 200, "step": 5, "unit": "$", "default": 60 },
+      { "type": "collection", "id": "cart_upsell_collection", "label": "Cart drawer upsell collection" },
+      { "type": "text", "id": "cart_note_label", "label": "Gift note label", "default": "Add a gift note" }
+    ]
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      { "type": "image_picker", "id": "favicon", "label": "Favicon" },
+      { "type": "image_picker", "id": "share_image", "label": "Social sharing image" }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL", "default": "https://instagram.com" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok URL", "default": "https://tiktok.com" },
+      { "type": "text", "id": "social_youtube", "label": "YouTube URL", "default": "https://youtube.com" }
+    ]
+  }
+]

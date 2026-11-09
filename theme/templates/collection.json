@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": { "type": "main-collection", "settings": { "per_page": 24, "columns": 3 } },
+    "usps": {
+      "type": "usps", "settings": { "style": "section--surface" },
+      "blocks": {
+        "u1": { "type": "item", "settings": { "icon": "flame", "title": "Roasted to order", "text": "Every Tuesday and Friday in Lima." } },
+        "u2": { "type": "item", "settings": { "icon": "truck", "title": "Free shipping over $60", "text": "Tracked, carbon-neutral delivery." } },
+        "u3": { "type": "item", "settings": { "icon": "heart", "title": "Love it or it's on us", "text": "Free replacement or full refund." } }
+      },
+      "block_order": ["u1", "u2", "u3"]
+    }
+  },
+  "order": ["main", "usps"]
+}

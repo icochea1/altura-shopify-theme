@@ -1,0 +1,18 @@
+{%- liquid
+  if variant
+    assign p = variant.price
+    assign cap = variant.compare_at_price
+  else
+    assign p = product.price
+    assign cap = product.compare_at_price
+  endif
+  assign sale = false
+  if cap > p
+    assign sale = true
+  endif
+-%}
+<span class="price{% if sale %} price--sale{% endif %}"{% if attr %} {{ attr }}{% endif %}>
+  {%- if variant == blank and product.price_varies -%}<span class="price__from">From</span>{%- endif -%}
+  <span class="price__current">{{ p | money }}</span>
+  {%- if sale -%}<s>{{ cap | money }}</s>{%- endif -%}
+</span>

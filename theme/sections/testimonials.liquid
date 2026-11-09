@@ -1,0 +1,47 @@
+<section class="section {{ section.settings.style }}">
+  <div class="container container--narrow center">
+    <p class="eyebrow" data-reveal>{{ section.settings.eyebrow }}</p>
+    <div class="quotes" data-quotes data-reveal style="--d:1">
+      {%- for block in section.blocks -%}
+        <figure class="quote{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }} style="margin:0">
+          <div class="quote__stars">{%- for i in (1..5) -%}{% render 'icon', name: 'star', size: 18 %}{%- endfor -%}</div>
+          <blockquote class="quote__text" style="margin-top:0">“{{ block.settings.quote }}”</blockquote>
+          <figcaption><div class="quote__author">{{ block.settings.author }}</div><div class="quote__role">{{ block.settings.role }}</div></figcaption>
+        </figure>
+      {%- endfor -%}
+      <div class="quotes__nav">
+        {%- for block in section.blocks -%}
+          <button aria-label="Review by {{ block.settings.author | escape }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}">
+            {%- if block.settings.avatar -%}{{ block.settings.avatar | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}{%- else -%}<span style="font-family:var(--font-display);font-size:1.3rem">{{ block.settings.author | slice: 0 }}</span>{%- endif -%}
+          </button>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  {%- if section.settings.press != blank -%}
+    <div class="container">
+      <div class="press" data-reveal>
+        {%- assign names = section.settings.press | split: ',' -%}
+        {%- for n in names -%}<span>{{ n | strip }}</span>{%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "4.9 / 5 from 2,300+ reviews" },
+    { "type": "text", "id": "press", "label": "Press names (comma separated)", "default": "Crema Quarterly, The Daily Grind, Origin Notes, Slow Mornings, Field & Cup" },
+    { "type": "select", "id": "style", "label": "Background", "default": "", "options": [ { "value": "", "label": "Default" }, { "value": "section--surface", "label": "Surface" } ] }
+  ],
+  "blocks": [{ "type": "quote", "name": "Quote", "settings": [
+    { "type": "textarea", "id": "quote", "label": "Quote", "default": "The best coffee I've had outside a café." },
+    { "type": "text", "id": "author", "label": "Author", "default": "Customer" },
+    { "type": "text", "id": "role", "label": "Detail", "default": "Verified buyer" },
+    { "type": "image_picker", "id": "avatar", "label": "Photo" }
+  ] }],
+  "presets": [{ "name": "Testimonials", "blocks": [{ "type": "quote" }, { "type": "quote" }] }]
+}
+{% endschema %}

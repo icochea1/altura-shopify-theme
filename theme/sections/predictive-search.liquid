@@ -1,0 +1,33 @@
+{%- if predictive_search.performed -%}
+  {%- assign r = predictive_search.resources -%}
+  {%- assign total = r.products.size | plus: r.collections.size | plus: r.pages.size | plus: r.articles.size -%}
+  {%- if total == 0 -%}
+    <p class="muted">No results for “{{ predictive_search.terms | escape }}”. Try “geisha”, “kettle” or “espresso”.</p>
+  {%- else -%}
+    <div class="predictive">
+      <div>
+        {%- if predictive_search.terms != blank -%}
+          <h3>Suggestions</h3>
+          <ul>
+            <li><a href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}"><strong>Search all for “{{ predictive_search.terms | escape }}”</strong></a></li>
+            {%- for c in r.collections -%}<li><a href="{{ c.url }}">{{ c.title }}</a></li>{%- endfor -%}
+            {%- for p in r.pages -%}<li><a href="{{ p.url }}">{{ p.title }}</a></li>{%- endfor -%}
+            {%- for a in r.articles -%}<li><a href="{{ a.url }}">{{ a.title }}</a></li>{%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+      <div>
+        <h3>Products</h3>
+        <div class="predictive__products">
+          {%- for p in r.products limit: 8 -%}
+            <a class="predictive__product" href="{{ p.url }}">
+              {%- if p.featured_image -%}{{ p.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', alt: p.title }}{%- endif -%}
+              <b>{{ p.title | highlight: predictive_search.terms }}</b>
+              {% render 'price', product: p %}
+            </a>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+{%- endif -%}

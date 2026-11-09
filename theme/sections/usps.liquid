@@ -1,0 +1,29 @@
+<section class="section section--tight {{ section.settings.style }}">
+  <div class="container">
+    <div class="usps" style="--cols: {{ section.blocks.size | at_most: 4 }}">
+      {%- for block in section.blocks -%}
+        <div class="usp" data-reveal style="--d: {{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          <div class="usp__icon">{% render 'icon', name: block.settings.icon, size: 22 %}</div>
+          <div><h3>{{ block.settings.title }}</h3><p>{{ block.settings.text }}</p></div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Icon row",
+  "settings": [
+    { "type": "select", "id": "style", "label": "Background", "default": "", "options": [ { "value": "", "label": "Default" }, { "value": "section--surface", "label": "Surface" }, { "value": "section--dark", "label": "Dark" } ] }
+  ],
+  "blocks": [{ "type": "item", "name": "Item", "limit": 4, "settings": [
+    { "type": "select", "id": "icon", "label": "Icon", "default": "truck", "options": [
+      { "value": "truck", "label": "Truck" }, { "value": "leaf", "label": "Leaf" }, { "value": "mountain", "label": "Mountain" }, { "value": "flame", "label": "Flame" },
+      { "value": "refresh", "label": "Refresh" }, { "value": "gift", "label": "Gift" }, { "value": "heart", "label": "Heart" }, { "value": "cup", "label": "Cup" }, { "value": "clock", "label": "Clock" } ] },
+    { "type": "text", "id": "title", "label": "Title", "default": "Free shipping over $60" },
+    { "type": "text", "id": "text", "label": "Text", "default": "Tracked delivery in 2–4 days." }
+  ] }],
+  "presets": [{ "name": "Icon row", "blocks": [{ "type": "item" }, { "type": "item" }, { "type": "item" }] }]
+}
+{% endschema %}
